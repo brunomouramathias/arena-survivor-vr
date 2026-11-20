@@ -1,0 +1,9 @@
+﻿=== TESTE ANTI-TRAVAMENTO ===
+Data: 2026-11-11 16:43:10
+GameManager=True | UIManager=True
+1. SetState(Shop): state=Shop timeScale=0
+1. Após 2,6s: state=Playing timeScale=1 => PASS
+2. SetState(Paused): state=Paused timeScale=0
+2. Após 2,6s: state=Playing timeScale=1 => PASS
+3. Playing com timeScale forçado a 0: timeScale=1 => PASS
+RESULTADO: PASS

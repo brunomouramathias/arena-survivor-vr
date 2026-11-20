@@ -1,0 +1,38 @@
+﻿=== [SWAT INSTALL] 2026-11-12 15:04:35 ===
+Takes encontrados no FBX: 24
+  - take 'Death' frames [0..32] loop=False
+  - take 'Gun_Shoot' frames [0..18] loop=True
+  - take 'HitRecieve' frames [0..17] loop=False
+  - take 'HitRecieve_2' frames [0..17] loop=False
+  - take 'Idle' frames [0..50] loop=True
+  - take 'Idle_Gun' frames [0..50] loop=True
+  - take 'Idle_Gun_Pointing' frames [0..50] loop=True
+  - take 'Idle_Gun_Shoot' frames [0..20] loop=True
+  - take 'Idle_Neutral' frames [0..50] loop=True
+  - take 'Idle_Sword' frames [0..50] loop=True
+  - take 'Interact' frames [0..38] loop=False
+  - take 'Kick_Left' frames [0..28] loop=False
+  - take 'Kick_Right' frames [0..28] loop=False
+  - take 'Punch_Left' frames [0..25] loop=False
+  - take 'Punch_Right' frames [0..25] loop=False
+  - take 'Roll' frames [0..40] loop=False
+  - take 'Run' frames [0..24] loop=True
+  - take 'Run_Back' frames [0..25] loop=True
+  - take 'Run_Left' frames [0..24] loop=True
+  - take 'Run_Right' frames [0..24] loop=True
+  - take 'Run_Shoot' frames [0..25] loop=True
+  - take 'Sword_Slash' frames [0..31] loop=False
+  - take 'Walk' frames [0..40] loop=True
+  - take 'Wave' frames [0..50] loop=True
+Clipes carregados (24): Wave, HitRecieve, Roll, Interact, Gun_Shoot, Idle_Gun, Walk, Idle_Gun_Pointing, Kick_Left, Punch_Left, Punch_Right, Kick_Right, Run_Left, Run, Sword_Slash, Idle_Sword, Death, Run_Back, HitRecieve_2, Idle_Neutral, Run_Right, Run_Shoot, Idle_Gun_Shoot, Idle
+Mapeamento de clipes: Idle=Idle_Gun | Walk=Walk | Run=Run | Back=Run_Back | Left=Run_Left | Right=Run_Right | Aim=Idle_Gun_Pointing | Shoot=Idle_Gun_Shoot | Death=Death | Roll=Roll
+AvatarMask de braços: 305/425 transforms ativos.
+  Material 'Swat_Black' -> URP Lit cor=RGBA(0.031, 0.027, 0.024, 1.000)
+  Material 'Skin' -> URP Lit cor=RGBA(0.617, 0.418, 0.238, 1.000)
+  Material 'Swat' -> URP Lit cor=RGBA(0.078, 0.087, 0.102, 1.000)
+  Material 'Visor' -> URP Lit cor=RGBA(0.008, 0.008, 0.008, 1.000)
+Armas preservadas: 3
+Altura bruta do SWAT: 1,87m
+Osso da mão direita: Player/CharacterArmature/Root/Body/Hips/Abdomen/Torso/Chest/Shoulder.R/UpperArm.R/LowerArm.R/Wrist.R
+Capturas de prova salvas em docs/screens/swat/.
+OK: SWAT instalado e cena Arena salva.

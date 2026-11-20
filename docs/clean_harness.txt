@@ -1,0 +1,5 @@
+﻿=== [CLEAN HARNESS] 2026-11-12 15:39:02 ===
+Assets/_Project/Scenes/Arena.unity: componentes de teste removidos = 0
+Assets/_Project/Scenes/MainMenu.unity: componentes de teste removidos = 0
+Assets/_Project/Scenes/Sandbox.unity: componentes de teste removidos = 0
+Assets/_Project/Scenes/PlayerTest.unity: removida (é recriada automaticamente pelo teste de prova).

@@ -1,0 +1,39 @@
+﻿=== [FOREST ARENA] 2026-11-12 14:31:31 ===
+  material mesh100681590Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh373735999Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh546125134Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh601634601Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh720331588Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh833803046Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh874600975Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1114869579Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1145296422Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1206298165Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1309878107Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1610579876Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1735826486Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1795976569Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1932686607Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh1958235271Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh2102696020Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+  material mesh2112331936Mat -> RGBA(0.800, 0.800, 0.800, 1.000)
+Diorama bounds: centro=(-0.13, 0.22, 0.02) tamanho=(0.90, 0.98, 0.88)
+Peças (filhos diretos): 18
+  [00] mesh100681590 | size=(0,163,0,344,0,164) | centroLocal=(0.00, 0.00, 0.00) | tris=206
+  [01] mesh373735999 | size=(0,315,0,415,0,171) | centroLocal=(0.00, 0.00, 0.00) | tris=868
+  [02] mesh546125134 | size=(0,190,0,363,0,188) | centroLocal=(0.00, 0.00, 0.00) | tris=56
+  [03] mesh601634601 | size=(0,282,0,179,0,150) | centroLocal=(0.00, 0.00, 0.00) | tris=768
+  [04] mesh720331588 | size=(0,227,0,442,0,225) | centroLocal=(0.00, 0.00, 0.00) | tris=122
+  [05] mesh833803046 | size=(0,860,0,070,0,830) | centroLocal=(0.00, 0.00, 0.00) | tris=24
+  [06] mesh874600975 | size=(0,204,0,371,0,193) | centroLocal=(0.00, 0.00, 0.00) | tris=998
+  [07] mesh1114869579 | size=(0,235,0,310,0,168) | centroLocal=(0.00, 0.00, 0.00) | tris=464
+  [08] mesh1145296422 | size=(0,138,0,390,0,142) | centroLocal=(0.00, 0.00, 0.00) | tris=96
+  [09] mesh1206298165 | size=(0,185,0,367,0,162) | centroLocal=(0.00, 0.00, 0.00) | tris=105
+  [10] mesh1309878107 | size=(0,134,0,099,0,168) | centroLocal=(0.00, 0.00, 0.00) | tris=54
+  [11] mesh1610579876 | size=(0,154,0,357,0,145) | centroLocal=(0.00, 0.00, 0.00) | tris=108
+  [12] mesh1735826486 | size=(0,121,0,077,0,110) | centroLocal=(0.00, 0.00, 0.00) | tris=38
+  [13] mesh1795976569 | size=(0,379,0,261,0,205) | centroLocal=(0.00, 0.00, 0.00) | tris=768
+  [14] mesh1932686607 | size=(0,189,0,230,0,175) | centroLocal=(0.00, 0.00, 0.00) | tris=105
+  [15] mesh1958235271 | size=(0,227,0,379,0,225) | centroLocal=(0.00, 0.00, 0.00) | tris=122
+  [16] mesh2102696020 | size=(0,239,0,308,0,239) | centroLocal=(0.00, 0.00, 0.00) | tris=134
+  [17] mesh2112331936 | size=(0,188,0,385,0,187) | centroLocal=(0.00, 0.00, 0.00) | tris=76

@@ -1,0 +1,16 @@
+﻿=== [SCENARIO] 2026-11-12 21:53:36 ===
+Materiais do pacote convertidos para URP: 0
+Containers antigos removidos: 1
+Torre pequena em (-3.70, 0.00, -3.70) (vida 300)
+Torre pequena em (3.70, 0.00, -3.70) (vida 300)
+Torre pequena em (-3.70, 0.00, 3.70) (vida 300)
+Torre pequena em (3.70, 0.00, 3.70) (vida 300)
+  chaserPrefab -> Assets/_Project/Prefabs/Enemy_Chaser.prefab
+  shooterPrefab -> Assets/_Project/Prefabs/Enemy_Shooter.prefab
+  bossPrefab -> Assets/_Project/Prefabs/Enemy_Boss.prefab
+  spawnWarningPrefab -> Assets/_Project/Prefabs/SpawnWarning.prefab
+WaveSpawner: spawn junto às muralhas (raio 21.2) e prefabs reatribuídos.
+HUD antigo (Canvas_HUD) desativado; HUD novo = corações + onda + pontos.
+PlayerHealth.maxHealth = 3 corações.
+NavMesh reconstruída.
+Capturas: 20_cenario_top.png, 21_cenario_game.png, 22_torre_close.png

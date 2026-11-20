@@ -1,0 +1,27 @@
+=== RITMO E PODERES (edit mode) 20/11 18:20 ===
+[TIROS] onda1:2 tiros (36HP), onda2:3 tiros (54HP), onda3:4 tiros (72HP), onda4:5 tiros (90HP), onda5:6 tiros (108HP), onda6:7 tiros (126HP), onda7:8 tiros (144HP), onda8:8 tiros (144HP)
+[OK]    Onda 1 = 2 tiros, onda 2 = 3 tiros, onda 3 = 4 tiros — o1=2 o2=3 o3=4
+[OK]    Ondas seguintes pedem mais tiros (teto 8) — o4=5 o7=8 o8=8
+[OK]    Onda 1: vida = 2 tiros da pistola (36 HP) — monstro=36HP bruxo=36HP esperado=36HP
+[OK]    Onda 2: vida = 3 tiros da pistola (54 HP) — monstro=54HP bruxo=54HP esperado=54HP
+[OK]    Onda 3: vida = 4 tiros da pistola (72 HP) — monstro=72HP bruxo=72HP esperado=72HP
+[OK]    Onda 5: vida = 6 tiros da pistola (108 HP) — monstro=108HP bruxo=108HP esperado=108HP
+[OK]    Chefe continua tanque (não usa a regra de 2-4 tiros) — chefe na onda 3 = 1088 HP
+[VELOCIDADE] onda1=1,92 onda4=2,69 onda9=3,97 onda20=5,12 m/s
+[OK]    Inimigos lentos na onda 1 e cada vez mais rápidos — 1,92 → 2,69 → 3,97 m/s (teto 5,12)
+[PODERES] sequência: Speed → Weapon → FireRate → Damage → Health
+[OK]    1º poder (onda 1→2) é VELOCIDADE e aplica no jogador — speed 1,00 -> 1,25
+[OK]    2º poder (onda 2→3) é ARMA MAIS FORTE — tipo=Weapon dano x1,65
+[OK]    Sequência evolui (cadência, dano, vida) e volta ao começo — Speed,Weapon,FireRate,Damage,Health
+[OK]    Poder de cadência aumenta a velocidade de tiro — fireRate x1,20
+[OK]    PlayerAnimation tem Revive() que reseta o clipe de morte — método encontrado
+[OK]    PlayerHealth chama Revive() ao voltar do nocaute (não fica deitado) — chamada presente no RespawnRoutine
+[OK]    Revive() faz Rebind do Animator — Rebind presente
+[TIRO] 2 disparos mataram o bruxo? True (vida inicial 36)
+[OK]    Tiro do jogador acerta e mata o bruxo azul — 2 disparos para matar 36HP (esperado até 2 na onda 1)
+[MIRA] erro antes=6,0° depois=1,7°
+[OK]    Mira assistida puxa o tiro para o inimigo quando passa perto — erro 6,0° -> 1,7°
+[OK]    Mira assistida não altera tiro apontado para longe do inimigo — desvio=0,0°
+[OK]    Ícone de poder gera imagem de referência — 10_icone_poder.png
+
+=== RESULTADO: 19 OK / 0 FALHAS ===

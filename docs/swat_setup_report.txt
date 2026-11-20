@@ -1,0 +1,41 @@
+﻿=== SWAT SETUP REPORT ===
+Data: 2026-11-11 17:26:13
+Importer: Generic, globalScale=1, importAnimation=true
+Sub-assets encontrados no Swat.fbx: 230
+Clipes detectados:
+  - CharacterArmature|Wave (1,67s, loop=False)
+  - CharacterArmature|HitRecieve (0,57s, loop=False)
+  - CharacterArmature|Roll (1,33s, loop=False)
+  - CharacterArmature|Interact (1,27s, loop=False)
+  - CharacterArmature|Gun_Shoot (0,60s, loop=False)
+  - CharacterArmature|Idle_Gun (1,67s, loop=False)
+  - CharacterArmature|Walk (1,33s, loop=False)
+  - CharacterArmature|Idle_Gun_Pointing (1,67s, loop=False)
+  - CharacterArmature|Kick_Left (0,93s, loop=False)
+  - CharacterArmature|Punch_Left (0,83s, loop=False)
+  - CharacterArmature|Punch_Right (0,83s, loop=False)
+  - CharacterArmature|Kick_Right (0,93s, loop=False)
+  - CharacterArmature|Run_Left (0,80s, loop=False)
+  - CharacterArmature|Run (0,80s, loop=False)
+  - CharacterArmature|Sword_Slash (1,03s, loop=False)
+  - CharacterArmature|Idle_Sword (1,67s, loop=False)
+  - CharacterArmature|Death (1,07s, loop=False)
+  - CharacterArmature|Run_Back (0,83s, loop=False)
+  - CharacterArmature|HitRecieve_2 (0,57s, loop=False)
+  - CharacterArmature|Idle_Neutral (1,67s, loop=False)
+  - CharacterArmature|Run_Right (0,80s, loop=False)
+  - CharacterArmature|Run_Shoot (0,83s, loop=False)
+  - CharacterArmature|Idle_Gun_Shoot (0,67s, loop=False)
+  - CharacterArmature|Idle (1,67s, loop=False)
+AnimatorController criado: Assets/_Project/Animations/Player/AnimatorController_Swat.controller
+  BlendTree2D: Idle=, Run=, Back=, Left=, Right=
+  Shoot: 
+Removido filho: Model_Player
+Altura medida do Swat: 1,876m
+CharacterController: height=1,88, radius=0,38
+AVISO: Mão direita não encontrada por nome, usando WeaponHolder fallback.
+Cena Arena salva com Model_Swat.
+Capturas salvas em docs/screens/swat/
+  swat_01_idle.png   — Idle de frente
+  swat_02_walk.png   — Caminhada de perfil
+  swat_03_topdown.png — Vista superior (câmera do jogo)

@@ -1,0 +1,7 @@
+﻿=== [STRIDE DIRECTION] 2026-11-12 16:03:58 ===
+Walk       passo: v=1,29 m/s  vetor_local=(0,00,-0,02)  direção_implícita=(0,00,0,02)
+Run        passo: v=3,05 m/s  vetor_local=(0,00,-0,05)  direção_implícita=(0,00,0,05)
+Run_Back   passo: v=3,13 m/s  vetor_local=(0,00,0,05)  direção_implícita=(0,00,-0,05)
+Run_Left   passo: v=3,05 m/s  vetor_local=(0,05,0,00)  direção_implícita=(-0,05,0,00)
+Run_Right  passo: v=3,05 m/s  vetor_local=(-0,05,0,00)  direção_implícita=(0,05,0,00)
+Run_Shoot  passo: v=3,07 m/s  vetor_local=(0,00,-0,05)  direção_implícita=(0,00,0,05)

@@ -1,0 +1,35 @@
+﻿=== [SCENARIO PLAY] 2026-11-18 19:58:43 ===
+Torres encontradas: 4
+  Torre_Defensiva em (-3.70, -0.01, -3.70) HP=300/300
+  Torre_Defensiva em (3.70, -0.01, -3.70) HP=300/300
+  Torre_Defensiva em (3.70, -0.01, 3.70) HP=300/300
+  Torre_Defensiva em (-3.70, -0.01, 3.70) HP=300/300
+t=3s: inimigos=0 state=Playing timeScale=1 wave=1/Preparing
+t=6s: inimigos=1 state=Playing timeScale=1 wave=1/Spawning
+t=9s: inimigos=3 state=Playing timeScale=1 wave=1/Spawning
+t=12s: inimigos=4 state=Playing timeScale=1 wave=1/Spawning
+t=15s: inimigos=6 state=Playing timeScale=1 wave=1/Spawning
+t=18s: inimigos=8 state=Playing timeScale=1 wave=1/Spawning
+t=21s: inimigos=8 state=Playing timeScale=1 wave=1/InCombat
+  após 22s: Torre_Defensiva HP=250/300 destruida=False
+  após 22s: Torre_Defensiva HP=110/300 destruida=False
+  após 22s: Torre_Defensiva HP=200/300 destruida=False
+  após 22s: Torre_Defensiva HP=110/300 destruida=False
+Soma HP das torres: 670
+Inimigos vivos no fim: 8
+Erros no console: 0
+HUD de corações: presente
+  canvas: True mode=ScreenSpaceCamera order=100 enabled=True
+  img 'Heart1' sprite=True color=RGBA(0.950, 0.180, 0.220, 1.000) size=(64.00, 64.00) world=(0.62, 8.17, -5.85)..(0.68, 8.21, -5.80)
+  img 'Heart2' sprite=True color=RGBA(0.950, 0.180, 0.220, 1.000) size=(64.00, 64.00) world=(0.69, 8.17, -5.85)..(0.74, 8.21, -5.80)
+  img 'Heart3' sprite=True color=RGBA(0.950, 0.180, 0.220, 1.000) size=(64.00, 64.00) world=(0.75, 8.17, -5.85)..(0.80, 8.21, -5.80)
+  img 'BG' sprite=False color=RGBA(0.030, 0.020, 0.050, 0.860) size=(1920.00, 1080.00) world=(-0.83, 7.64, -6.52)..(0.83, 8.22, -5.79)
+  img 'RestartButton' sprite=False color=RGBA(0.750, 0.200, 0.200, 1.000) size=(360.00, 84.00) world=(-0.16, 7.78, -6.35)..(0.16, 7.82, -6.29)
+  text 'Text' = 'ONDA 1' color=RGBA(1.000, 0.950, 0.850, 1.000) active=True
+  text 'Text' = 'PONTOS: 0' color=RGBA(1.000, 1.000, 1.000, 1.000) active=True
+  text 'Text' = 'GAME OVER' color=RGBA(0.950, 0.200, 0.220, 1.000) active=False
+  text 'Text' = 'PONTUAÇÃO: 0' color=RGBA(1.000, 1.000, 1.000, 1.000) active=False
+  text 'Text' = 'Pressione ENTER (ou clique) para reiniciar' color=RGBA(0.850, 0.850, 0.900, 1.000) active=False
+  text 'Text' = 'REINICIAR' color=RGBA(1.000, 1.000, 1.000, 1.000) active=False
+Vida inicial: 3/3
+Após levar dano: HP=0/3 morto=True state=GameOver

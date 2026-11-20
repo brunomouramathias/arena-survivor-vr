@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f774aaa583e10684aa7f238cc6be2f13, type: 3}
+  m_Name: WeaponData_Energy
+  m_EditorClassIdentifier: Assembly-CSharp::ArenaSurvivor.Weapons.WeaponData
+  weaponName: Arma de Energia
+  weaponIcon: {fileID: 0}
+  damage: 26
+  fireRate: 6
+  pellets: 1
+  spread: 2
+  projectilePrefab: {fileID: 4487333240727212829, guid: d6e529e84e748bb458c9e637d8c409c2, type: 3}
+  projectileSpeed: 40
+  projectileRange: 80
+  piercing: 1
+  clipSize: 30
+  reserveAmmo: 120
+  reloadTime: 1.6
+  unlockCost: 350
+  startUnlocked: 0
+  muzzleFlashPrefab: {fileID: 6189882429482153434, guid: 9f985e6e493243345b3d92607ecc82f8, type: 3}
+  shootSFX: {fileID: 8300000, guid: 61aca41f7b61f4d409147509b5db86f2, type: 3}
+  reloadSFX: {fileID: 8300000, guid: 65e77982b27be074a9ac5cbc91d244cc, type: 3}
+  emptySFX: {fileID: 8300000, guid: 797ca048098290848864446aa4ec2f8f, type: 3}
+  shakeMagnitude: 0.12

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e4dd133ad987794f882420ed3ed8dd4, type: 3}
+  m_Name: Upgrade_Reload
+  m_EditorClassIdentifier: Assembly-CSharp::ArenaSurvivor.Shop.UpgradeData
+  upgradeName: Recarga -12%
+  description: Reduz o tempo de recarga em 12%
+  icon: {fileID: 0}
+  type: 2
+  baseCost: 80
+  costMultiplier: 1.5
+  maxLevel: 5

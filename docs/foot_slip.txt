@@ -1,0 +1,8 @@
+﻿=== [FOOT SLIP] 2026-11-12 16:36:54 ===
+pés: L=True R=True
+frente 6 m/s     pe(local)=6,14 m/s | mundo=3,86 m/s (64%) | anim.speed=1,00
+trás 6 m/s       pe(local)=5,95 m/s | mundo=3,70 m/s (62%) | anim.speed=1,00
+direita 6 m/s    pe(local)=6,18 m/s | mundo=3,58 m/s (60%) | anim.speed=1,00
+esquerda 6 m/s   pe(local)=6,29 m/s | mundo=3,96 m/s (66%) | anim.speed=1,00
+trás 2 m/s       pe(local)=2,01 m/s | mundo=1,20 m/s (60%) | anim.speed=1,00
+frente 2 m/s     pe(local)=2,02 m/s | mundo=1,18 m/s (59%) | anim.speed=1,00

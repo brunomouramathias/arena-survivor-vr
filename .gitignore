@@ -1,0 +1,45 @@
+# Gerado pelo Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+[Bb]ackups/
+
+# Arquivos de IDE e projetos gerados
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Builds de teste e logs de execução do agente
+*.log
+
+# Unity Crash Reports
+sysinfo.txt
+crash-*.json
+
+# Pasta de importação pendente (conteúdo bruto antes do processamento)
+Assets/_Project/ThirdParty/_INBOX/kenney_nature-kit/Preview*/

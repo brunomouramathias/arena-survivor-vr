@@ -1,0 +1,11 @@
+﻿=== [FIX PLAYER] 2026-11-11 16:16:53 ===
+Avatar do Player: GunplayAvatar | isValid=True | isHuman=True
+Clipes: Idle/Aim='Gunplay' (2,53s) | Walk='Zombie Walk' (4,03s) | Run='Zombie Run' (0,80s)
+Controller: Assets/_Project/Animations/Player/AnimatorController_Player.controller | camadas=2 | params=Speed,LegSpeed,MoveX,MoveZ,Shoot,Die
+SkinnedMeshRenderers no Player: 2
+  - Beta_Joints: verts=12473 bones=64 bindposes=64 rootBone=mixamorig:Hips materiais=1
+  - Beta_Surface: verts=15901 bones=65 bindposes=65 rootBone=mixamorig:Hips materiais=1
+Bounds do Player: altura=1,76m largura=0,69m (centro (0.03, 0.82, 0.27))
+Arma: socket em 'Player/Model_Player/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/WeaponSocket' | muzzle='Player/Model_Player/mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/WeaponSocket/Weapon_Pistol/Muzzle' | socket localRot=(289.04, 184.95, 261.40)
+Muzzle em espaço local do Player: (-0.02, 1.28, 1.29) (z>0 = à frente)
+OK: cena Arena salva e assets persistidos.

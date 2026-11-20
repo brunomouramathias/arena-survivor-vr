@@ -1,0 +1,24 @@
+﻿=== TESTE: ícone de poder -> loja -> próxima onda ===
+Data: 2026-11-20 18:26:11
+ShopScreen na cena: True | estado=Playing timeScale=1 onda=1/Spawning
+[1] onda limpa? state=Cleared inimigos=0
+[2] ícone de poder brotou: True pos=(-13.62, 1.18, -13.03) ativos=1
+[2] ícone coletado: True
+[3] estado=Shop timeScale=0 telaVisivel=True botões=6 visíveis=6 => PASS
+      'ONDA 1 CONCLUÍDA  —  LOJA'
+      'PONTOS: 188'
+      'DANO  +10%   ·   Lv 0/5  ·  80 pts'
+      'RECARGA  +15%   ·   Lv 0/5  ·  80 pts'
+      'VIDA MÁXIMA  +20   ·   Lv 0/5  ·  80 pts'
+      'ESCOPETA  —  150 pts'
+      'ARMA DE ENERGIA  —  350 pts'
+      'PRÓXIMA ONDA  ▶'
+      'ESPAÇO / ENTER continua   ·   ESC volta ao combate'
+[3b] clique no 1º botão: raycast=True nível DANO 0->1 pontos 188->108 => PASS
+[4] após continuar: estado=Playing timeScale=1 telaVisivel=False => PASS
+[5] onda=2/Spawning inimigos=1 timeScale=1 => PASS
+[6] loja sem tela: estado=Playing timeScale=1 => PASS
+[7] estado=Victory timeScale=0 painel de vitória visível=True => PASS
+
+Erros/exceções: 0
+RESULTADO: PASS

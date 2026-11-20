@@ -1,0 +1,54 @@
+﻿==================================================
+      PROVA FINAL DO JOGADOR (PLAY MODE)          
+==================================================
+Data/Hora: 2026-11-12 15:19:01
+
+[SKIN / RIG]
+Avatar: SwatAvatar | isValid=True | isHuman=False
+  SMR Swat_Body: verts=5432 bones=62 bindposes=62 boneWeights=SIM rootBone=Root
+    material='Mat_Swat_Swat_Black' textura=NENHUMA
+    material='Mat_Swat_Skin' textura=NENHUMA
+    material='Mat_Swat_Swat' textura=NENHUMA
+  SMR Swat_Feet: verts=942 bones=62 bindposes=62 boneWeights=SIM rootBone=Root
+    material='Mat_Swat_Swat_Black' textura=NENHUMA
+  SMR Swat_Head: verts=3111 bones=62 bindposes=62 boneWeights=SIM rootBone=Root
+    material='Mat_Swat_Swat_Black' textura=NENHUMA
+    material='Mat_Swat_Swat' textura=NENHUMA
+    material='Mat_Swat_Visor' textura=NENHUMA
+  SMR Swat_Legs: verts=3183 bones=62 bindposes=62 boneWeights=SIM rootBone=Root
+    material='Mat_Swat_Swat' textura=NENHUMA
+    material='Mat_Swat_Swat_Black' textura=NENHUMA
+  Altura (bounds): 1,87 m
+  Weapon: Weapon_Pistol | Muzzle: Muzzle
+
+[TESTE DE ESTICAMENTO - LIMITE 3%]
+  Idle_Gun: pior LowerLeg.L->Foot.L = 0,68% [PASS]
+  Walk: pior LowerLeg.L->Foot.L = 0,51% [PASS]
+  Run: pior LowerLeg.R->Foot.R = 0,80% [PASS]
+  Run_Back: pior LowerLeg.L->Foot.L = 1,36% [PASS]
+  Run_Left: pior LowerLeg.L->Foot.L = 0,80% [PASS]
+  Run_Right: pior LowerLeg.R->Foot.R = 0,80% [PASS]
+  Roll: pior Hips->Chest = 19,23% [FAIL]
+  Death: pior Hips->Chest = 3,19% [FAIL]
+  Idle_Gun_Pointing: pior LowerLeg.L->Foot.L = 0,68% [PASS]
+  Idle_Gun_Shoot: pior LowerLeg.R->Foot.R = 0,27% [PASS]
+1. Idle de frente: capturado.
+2. Caminhada perfil 1/4: capturado.
+2. Caminhada perfil 2/4: capturado.
+2. Caminhada perfil 3/4: capturado.
+2. Caminhada perfil 4/4: capturado.
+3. Caminhada vista de cima (53°): capturado.
+4. Disparo parado (flash + braços): capturado.
+5. Disparo andando para frente: capturado.
+6. Disparo andando de lado: capturado.
+7. Disparo andando para trás: capturado.
+8. Bala em voo: posição=(0.04, 1.43, 4.77) | trail=0,15s | distância do muzzle=3,85m
+8. Bala em voo com rastro: capturado.
+9. Impacto: capturado.
+
+[MOVIMENTO] 1s a 6 m/s => deslocamento=6,01 m (esperado ~6.00 m)
+[TIRO] 10/10 projéteis nasceram no Muzzle; 10/10 percorreram a trajetória (>3m).
+
+[CONSOLE] erros=0 warnings=0
+
+Imagens: 01_idle_frente.png, 02_walk_perfil_01.png, 02_walk_perfil_02.png, 02_walk_perfil_03.png, 02_walk_perfil_04.png, 03_walk_topdown.png, 04_disparo_parado.png, 05_disparo_andando_frente.png, 06_disparo_andando_lado.png, 07_disparo_andando_tras.png, 08_bala_fogo.png, 09_impacto.png

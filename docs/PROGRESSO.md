@@ -1,0 +1,172 @@
+# Progresso — Skins texturizadas + Mago azul (17/11/2026)
+
+## O que mudou
+1. **Skins de verdade (texturas, não cor sólida)** — criadas pintando diretamente
+   sobre as UVs reais da malha (bake por osso: cabeça, trono, braços, mãos,
+   pernas, pés), com manchas, veias e grão de pele:
+   - `Assets/_Project/Textures/Skins/monster_red.png` → Chaser (Bruto vermelho)
+   - `Assets/_Project/Textures/Skins/monster_orange.png` → Shooter (Cuspidor laranja)
+   - `Assets/_Project/Textures/Skins/monster_purple.png` → Stalker (Espectro roxo)
+   - `Assets/_Project/Textures/Skins/mage_robe.png` → Boss (Mago: manto azul-noite,
+     colar/cinto dourados, barra do manto com brilho azul arcano)
+   - Técnica: segmentação por osso via `bindposes` (imune à pose do FBX), rasterização
+     triângulo a triâmtulo em textura 1024² e dilatação para costuras.
+   - Re-executável pelo menu `Tools/Arena/Bake Character Skins`.
+
+2. **Mago solta poder AZUL de curta distância**
+   - `Mat_ProjMagicBoss` agora é azul emissivo (leque de projéteis azul).
+   - Nova de curta distância (raio 4) com aviso azul: `Mat_Warning_Blue` +
+     `SpawnWarning_Blue.prefab` ligados ao Boss (a aviso vermelho continua nos
+     inimigos comuns).
+
+3. **Movimento mais natural**
+   - NavMeshAgent de todos: `acceleration=14`, `angularSpeed=480°/s` (curvas suaves).
+   - Animador: Walk 1.1x / Run 1.15x (passada mais viva, menos deslize).
+   - Animações Walk/Run/Attack do Mixamo continuam (blend por velocidade).
+
+## Provas
+- `docs/screens/diag/20_Enemy_*.png` — closes texturizados de cada personagem.
+- `docs/screens/cenario/23_torres_em_jogo.png` — jogo real com monstros texturizados.
+- `docs/scenario_play.txt` — playmode: onda 1 com 8 inimigos, dano nas torres,
+  game over validado, zero erros de console.
+
+---
+
+## Bruxos inimigos com poderes (Fire Wizard / Air Wizard)
+
+O chefe e o atirador de elite agora são **bruxos do pack Wizard_Free**, com poderes e
+movimento natural. Detalhes completos em [`docs/wizards.md`](wizards.md).
+
+### O que mudou
+1. **Modelos trocados**
+   - `Enemy_Boss` → `Fire_Wizard.fbx` (mago vermelho, 2,05 m)
+   - `Enemy_Sorcerer` → `Air_Wizard.fbx` (mago azul, 1,85 m)
+   - Materiais `Mat_Wizard_Fire` / `Mat_Wizard_Air`, olhos emissivos preservados.
+
+2. **Animação procedural (`WizardAnim`)**
+   - Mixamo retarget deformava a pose (T-pose parcial, mago inclinado), então os
+     clipes foram substituídos por animação gerada por código sobre os 20 ossos do
+     próprio modelo: idle com respiração, passada com braços em oposição e "bob"
+     do tronco, e conjuração com braços à frente.
+   - Nenhum `Animator` nos prefabs dos bruxos; `BossController` e `EnemyShooter`
+     chamam `WizardAnim.PlayCast()` / `PlayAttack()`.
+
+3. **Poderes visíveis**
+   - Orbe de energia pulsante na mão durante conjuração, com luz pontual:
+     laranja no chefe (fogo) e ciano no bruxo azul (ar).
+   - Chefe: AOE de fogo (círculo vermelho no chão), leque de projéteis e invocação
+     de lacaios. Bruxo azul: projétil mágico a distância.
+
+4. **Aparição garantida nas ondas**
+   - Bruxo azul nasce **desde a onda 1** (mínimo 2 por onda, máximo 1/3).
+   - Chefe na **onda 1** e depois a cada **3 ondas** (3, 6, 9, 12, 15, 18).
+   - Materiais com tint branco para mostrar as texturas originais do pack.
+
+### Provas
+- `docs/screens/wizards/playtest.txt` — playmode na Arena: chefe andando a 2,5 m/s,
+  ambos conjurando (`cast≈0,97`, `glow=ON`), zero erros.
+- `docs/screens/wizards/10_boss_andando.png` — chefe andando na Arena.
+- `docs/screens/wizards/11_chefe_conjurando.png` — chefe com o AOE vermelho ativo.
+- `docs/screens/wizards/12_bruxo_azul_conjurando.png` — mago azul com orbe ciano.
+- `docs/screens/wizards/Fire_Wizard_0*.png` / `Air_Wizard_0*.png` — poses
+  idle/andar/conjurar/poder com medidas (`proof.txt`).
+
+## Melhorias de combate, ondas e pontuação (20/11)
+
+Implementadas e verificadas em jogo (relatório: `docs/screens/melhorias/relatorio.txt`, doc: `docs/melhorias.md`).
+
+- **Barra de vida em todos os inimigos**: `EnemyHealthBar` reescrita como barra procedural
+  (quads URP Unlit) ancorada no osso da cabeça, billboard para a câmera, verde→vermelho,
+  escala em metros. Criada automaticamente pelo `EnemyBase`; barras antigas de Canvas/Slider
+  dos prefabs são destruídas em runtime.
+- **Onda 1 em até 3 tiros**: `EnemyBase.FirstWaveMaxHealth = 54` (3 × 18 da pistola);
+  o chefe saiu da onda 1 (volta nas ondas 3, 6, 9...).
+- **Escalonamento suave**: `GetEnemyCount = 5 + (onda-1) × 1,7` (5, 7, 8, 10, 12, 14 … 30).
+- **Fim de jogo só com a última torre**: jogador nocauteado renasce (1,6 s, −50 pontos,
+  3 corações, 2,5 s invulnerável); `GameOver` apenas quando `TowerHealth.All` fica sem torres vivas.
+- **Pontuação por sobrevivência**: +5/s em jogo e bônus final (tempo×10, torre viva×250,
+  1% de vida das torres×5), com detalhamento na tela de Game Over e HUD com
+  `PONTOS`, `TEMPO mm:ss` e `TORRES n/4 (%)`.
+- Teste automatizado: **Tools ▸ Arena ▸ Testar Melhorias (checklist)** → 16 OK / 0 falhas.
+
+## Ritmo das ondas, poderes e nocaute (20/11 — parte 2)
+
+Doc: `docs/poderes.md`. Verificações: `docs/screens/poderes/`.
+
+- **Bug corrigido — jogador ficava deitado**: `PlayerAnimation.Revive()` (`ResetTrigger(Die)` +
+  `Rebind()` + `Update(0)`) chamado no `PlayerHealth.RespawnRoutine`. Em jogo o clipe volta para
+  `Idle_Gun` e o jogador levanta.
+- **Tiros para matar por onda**: `Waves/WaveTuning.cs` → 2 tiros na onda 1, 3 na 2, 4 na 3,
+  até 8 (vida = tiros × 18). Chefe fora da regra (mantém vida própria).
+- **Inimigos mais rápidos por onda**: fator 0,60 → 1,60 aplicado no `NavMeshAgent`
+  (1,92 m/s na onda 1 → 5,12 m/s na onda 20).
+- **Poder ao limpar a onda**: `Items/PowerUpPickup.cs` brota no local do último inimigo morto,
+  gira/brilha, é atraído e aplica a evolução: velocidade → arma mais forte → cadência → dano → vida.
+  O `WaveManager` espera a coleta (14 s máx.) antes de abrir a loja.
+- **PlayerStats** ganhou `UpgradeSpeed`, `UpgradeFireRate`, `UpgradeDamagePercent`; `Weapon` usa
+  `FireRateMultiplier`; `PlayerController` usa `EffectiveMoveSpeed` (= base × SpeedMultiplier).
+- Verificação: **Tools ▸ Arena ▸ Verificar Ritmo e Poderes (edit mode)** → 16 OK / 0 falhas.
+
+## Tiro nos inimigos (20/11 — parte 3)
+
+Doc: `docs/tiro.md`.
+
+- **Bug**: tiros não acertavam os bruxos. Causa: `Projectile_Player` com colisor de raio **0,08**,
+  Rigidbody kinematic + detecção Discrete e movimento por `transform.Translate` a 25 m/s
+  → a bala atravessava o alvo entre frames (tunneling) e o `OnTriggerEnter` nunca disparava.
+- **Correção**: `Projectile` agora faz **varredura por frame** (`OverlapCapsuleNonAlloc`, raio 0,28 m)
+  entre a posição anterior e a nova; pega `EnemyBase` no parent, ignora o jogador, bloqueia em
+  parede após 0,7 m de folga do cano. `Advance(dt)` público para testes.
+- **Mira assistida** (`Weapons/AimAssist.cs`): bolha de 1,1 m e desvio máximo de 14° puxando para
+  o peito do inimigo; cancelada se houver parede na frente. Aplicada no `Weapon.Fire`.
+- Verificação edit mode: **19 OK / 0 falhas** — bruxo de 36 HP morre em 2 tiros; mira com 6° de
+  erro cai para 1,7°; tiro apontado longe não sofre desvio.
+
+## Loja entre ondas: o "travamento" ao pegar o ícone (20/11 — parte 4)
+
+Doc: `docs/loja.md`. Prova: `docs/screens/loja/fluxo.txt` + `docs/screens/loja/01_loja_onda.png`.
+
+- **Sintoma**: encostar no ícone de poder que brota quando o último inimigo da onda morre
+  "travava" o jogo — tela do jogo parada, sem nada para clicar, para sempre.
+- **Causa raiz** (medida em play mode): pegar o ícone termina a onda e o `WaveManager` chama
+  `GameState.Shop`, que zera o `Time.timeScale`. Só que a loja era o `Shop_Panel` do `Canvas_HUD`
+  legado — e esse canvas está **desativado na cena Arena** (`m_IsActive: 0`), com o painel
+  **vazio** (sem filhos). Resultado: `timeScale = 0` + nenhuma UI = jogo congelado sem saída.
+  A coleta em si custa ~6 ms de spawn e ~23 ms no pior frame — não era engasgo de performance.
+- **Correção**: nova `UI/ShopScreen.cs`, construída por código (não depende de prefab nem do canvas
+  legado): fundo escuro, pontos, DANO/RECARGA/VIDA MÁXIMA com nível e custo, ESCOPETA e ARMA DE
+  ENERGIA, botão **PRÓXIMA ONDA** e atalhos ESPAÇO/ENTER/N/ESC. Aparece em `GameState.Shop`,
+  esconde o HUD de combate e devolve o cursor ao mouse.
+- **Travas de segurança** (`GameManager`): loja/pausa com `timeScale 0` e **sem tela visível**
+  volta ao combate em 1,5 s; vitória agora mostra painel "VITÓRIA!" (antes também ficava em
+  `timeScale 0` sem UI).
+- **Verificação**: `Tools ▸ Arena ▸ Teste Loja (ícone -> loja -> onda 2)` → **PASS**
+  (7/7): onda limpa → ícone brota → jogador encosta → loja visível com 6 botões → clique real
+  por raycast compra DANO (Lv 0→1, 188→108 pontos) → PRÓXIMA ONDA volta ao combate → onda 2
+  nasce com inimigos → loja sem tela não congela → vitória tem saída. 0 erros no console.
+
+## Armas: "não consigo mais atirar" depois de comprar upgrade (20/11 — parte 5)
+
+Prova: `docs/screens/armas/tiro_armas.txt` (play mode, 5/5 PASS).
+
+- **Sintoma**: na 3ª onda, depois de gastar pontos na loja, o jogador não atirava mais.
+- **Causa raiz**: a escopeta e a arma de energia começam com o GameObject **desativado**
+  (`m_IsActive: 0` na cena) — logo o `Awake()` delas não roda no início. A loja
+  (`TryUnlockShotgun → PlayerShooter.UnlockWeapon → Weapon.Unlock()`) marcava
+  `IsUnlocked = true` na arma desativada; quando o jogador equipava, o `SetActive(true)`
+  disparava o `Awake()`, que fazia `IsUnlocked = data.startUnlocked` (**false**) e
+  **apagava o desbloqueio**. `TryFire` saía na primeira linha (`if (!IsUnlocked) return;`)
+  e o jogador ficava sem arma — o mesmo acontecia com o poder "ARMA MAIS FORTE", que
+  também re-desbloqueava a escopeta em vez de passar para a próxima arma.
+- **Correção** (`Weapons/Weapon.cs`): `EnsureInitialized()` idempotente, chamado pelo
+  `Awake()` e por `Unlock()`/`TryFire()`/`TryReload()`/`AddAmmo()`. O `Awake` não
+  sobrescreve mais um desbloqueio feito antes da ativação (`unlockRequested`), e a
+  munição/pool passam a ser inicializados mesmo na arma desativada.
+- **Rede de segurança** (`PlayerShooter`): se a arma equipada ficar **seca** (pente e
+  reserva zerados) o jogo volta sozinho para a pistola (reserva infinita) e mostra
+  "SEM MUNIÇÃO — PISTOLA", então nunca dá para ficar sem atirar.
+- **API**: `PlayerShooter.EquipSlot(int)` agora é público e devolve `bool`;
+  `Weapon.IsDry` expõe o estado de munição esgotada.
+- **Verificação**: `Tools ▸ Arena ▸ Teste Tiro das Armas` → pistola, escopeta (caminho da
+  loja) e arma de energia (caminho do poder) atiram; troca de volta para a pistola atira;
+  escopeta seca volta para a pistola. **5/5 PASS, 0 erros**.

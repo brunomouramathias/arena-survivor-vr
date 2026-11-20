@@ -1,0 +1,14 @@
+﻿=== [STRIDE] 2026-11-12 15:51:18 ===
+Ossos: hips=True footL=True footR=True
+Walk       len=1,33s  velocidade_solo=1,55 m/s
+Run        len=0,80s  velocidade_solo=3,38 m/s
+Run_Back   len=0,83s  velocidade_solo=3,40 m/s
+Run_Left   len=0,80s  velocidade_solo=3,38 m/s
+Run_Right  len=0,80s  velocidade_solo=3,38 m/s
+Run_Shoot  len=0,83s  velocidade_solo=3,42 m/s
+  filho 'Walk' timeScale=2,58
+  filho 'Run' timeScale=1,18
+  filho 'Run_Back' timeScale=1,18
+  filho 'Run_Left' timeScale=1,18
+  filho 'Run_Right' timeScale=1,18
+PlayerController.cs: fórmula de LegSpeed atualizada para a referência.

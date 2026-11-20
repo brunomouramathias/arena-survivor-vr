@@ -1,0 +1,4 @@
+﻿=== [POLISH] 2026-11-12 20:22:41 ===
+TMP Essential Resources: já presente.
+AudioListener adicionado em 'MainCamera'.
+Textos TMP com fonte atribuída: 0 (fonte: LiberationSans SDF).

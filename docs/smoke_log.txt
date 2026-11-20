@@ -1,0 +1,22 @@
+﻿==================================================
+           ARENA SURVIVOR - SMOKE TEST LOG        
+==================================================
+Data/Hora:           2026-11-08 11:10:00
+Tempo de Simulação:  5,00s (3860 frames)
+FPS Médio:           771,9
+Status Geral:        PASS
+--------------------------------------------------
+CHECAGENS DO JOGADOR:
+  Posição Inicial:    (0.00, 0.05, 0.00)
+  Posição Final:      (0.00, 0.05, 0.00)
+  Renderer Visível:   SIM
+  Altura Medida (m):  1,557m
+  Câmera Enxerga:     SIM
+--------------------------------------------------
+CHECAGENS DE JOGO:
+  Inimigos Vivos:     0
+  Captura de Tela:    docs/screens\smoke_tarefa2.png
+--------------------------------------------------
+ERROS E EXCEÇÕES (0):
+  [Nenhum erro ou exceção registrado no Console!]
+==================================================

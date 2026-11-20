@@ -1,0 +1,13 @@
+﻿=== TESTE: atirar com todas as armas (pistola / escopeta / energia) ===
+Data: 2026-11-20 18:23:34
+[PISTOLA] 'Weapon_Pistol' desbloqueada=True pente 12->11 atirou=True => PASS
+[2] antes: escopeta 'Weapon_Shotgun' desbloqueada=False clip=0
+[2] equipou=True arma atual='Weapon_Shotgun' desbloqueada=True clip=6 reserva=36
+[ESCOPETA] 'Weapon_Shotgun' desbloqueada=True pente 6->5 atirou=True => PASS
+[3] poder liberou próxima=True arma atual='Weapon_Energy' desbloqueada=True clip=30 reserva=120
+[ENERGIA] 'Weapon_Energy' desbloqueada=True pente 30->29 atirou=True => PASS
+[PISTOLA (de volta)] 'Weapon_Pistol' desbloqueada=True pente 11->10 atirou=True => PASS
+[5] escopeta seca=True -> arma atual='Weapon_Pistol' recuperou=True => PASS
+
+Erros/exceções: 0
+RESULTADO: PASS

@@ -1,0 +1,15 @@
+﻿=== [FOREST DECOR] 2026-11-12 14:57:29 ===
+MTL presente: True
+  mat11 -> RGBA(0.000, 0.310, 0.250, 1.000)
+  mat19 -> RGBA(0.740, 0.330, 0.060, 1.000)
+  mat9 -> RGBA(0.270, 0.550, 0.070, 1.000)
+  mat10 -> RGBA(0.070, 0.440, 0.080, 1.000)
+  mat21 -> RGBA(1.000, 1.000, 1.000, 1.000)
+  mat20 -> RGBA(0.190, 0.090, 0.060, 1.000)
+  mat16 -> RGBA(0.190, 0.280, 0.340, 1.000)
+  mat17 -> RGBA(0.060, 0.100, 0.130, 1.000)
+Peças: árvores=13 nuvens=2 base=True
+Árvores antigas removidas: 36; substituindo por modelos do pacote Forest.
+Árvores do pacote Forest colocadas: 36
+Nuvens adicionadas: 2
+Captura: docs/screens/cenario/10_arena_decorada.png

@@ -1,0 +1,119 @@
+﻿==================================================
+       DIAGNÓSTICO COMPLETO DO PERSONAGEM         
+==================================================
+Data/Hora: 2026-11-11 16:21:06
+
+--------------------------------------------------
+A) SKIN (MALHA DEFORMÁVEL POR ESQUELETO):
+--------------------------------------------------
+TEM SKIN: SIM
+Quantidade de SkinnedMeshRenderers: 2
+Quantidade de MeshRenderers estáticos no Player: 6
+  - SMR: 'Beta_Joints' (GameObject: 'Beta_Joints')
+    Vértices: 12473 | Ossos conectados: 64 | Bindposes: 64
+    BoneWeights definidos: SIM (12473)
+    RootBone: mixamorig:Hips
+    Materiais e Texturas:
+      * Material: 'Mat_Player_Visor' (Shader: Universal Render Pipeline/Lit)
+        Textura Principal: NENHUMA (ou cor pura/shader procedural)
+  - SMR: 'Beta_Surface' (GameObject: 'Beta_Surface')
+    Vértices: 15901 | Ossos conectados: 65 | Bindposes: 65
+    BoneWeights definidos: SIM (15901)
+    RootBone: mixamorig:Hips
+    Materiais e Texturas:
+      * Material: 'Mat_Player_Hero' (Shader: Universal Render Pipeline/Lit)
+        Textura Principal: NENHUMA (ou cor pura/shader procedural)
+
+  Checagem FBX Original ('Assets/_Project/ThirdParty/_INBOX/Mixamo/Gunplay.fbx'):
+    Tipo do FBX: WITH SKIN (Contém 2 meshes na importação)
+
+--------------------------------------------------
+B) RIG E AVATAR:
+--------------------------------------------------
+Animator no Player: Presente
+Avatar Atribuído: GunplayAvatar
+Avatar.isValid: True
+Avatar.isHuman: True
+ModelImporter do Player FBX:
+  animationType: Human
+  avatarSetup: CreateFromThisModel
+  globalScale: 1
+  useFileUnits: True
+
+--------------------------------------------------
+C) ANIMATOR E HIERARQUIA:
+--------------------------------------------------
+RuntimeAnimatorController: 'AnimatorController_Player'
+Apply Root Motion: False
+Camadas (2):
+  - Camada 0: 'Base Layer' (Máscara: NENHUMA)
+    Estados (2):
+      * Estado 'AimIdle' -> Motion: 'Gunplay' (Arquivo: Assets/_Project/ThirdParty/_INBOX/Mixamo/Gunplay.fbx)
+      * Estado 'Die' -> Motion: 'NENHUM' (Arquivo: N/A)
+  - Camada 1: 'Legs' (Máscara: Mask_UpperBody)
+    Estados (1):
+      * Estado 'Locomotion' -> Motion: 'LocomotionLegs' (Arquivo: Assets/_Project/Animations/Player/AnimatorController_Player.controller)
+Parâmetros (6):
+  - Speed (Float)
+  - LegSpeed (Float)
+  - MoveX (Float)
+  - MoveZ (Float)
+  - Shoot (Trigger)
+  - Die (Trigger)
+
+Escala (localScale) dos Transforms na hierarquia do Player:
+                        * 'Visual' localScale = (0.55, 0.55, 0.55) [ALERTA: DIFERENTE DE 1]
+                        * 'Visual' localScale = (0.55, 0.55, 0.55) [ALERTA: DIFERENTE DE 1]
+                        * 'Visual' localScale = (0.55, 0.55, 0.55) [ALERTA: DIFERENTE DE 1]
+
+--------------------------------------------------
+D) INVENTÁRIO DE CLIPES DISPONÍVEIS:
+--------------------------------------------------
+  - Clipa: 'mixamo.com' no FBX 'Flying Knee Punch Combo.fbx' | Classificação: OUTRO
+  - Clipa: 'mixamo.com' no FBX 'Gunplay.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'mixamo.com' no FBX 'Shooting Gun.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'mixamo.com' no FBX 'Shooting.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'mixamo.com' no FBX 'Standing 1H Cast Spell 01.fbx' | Classificação: MAGIC CAST
+  - Clipa: 'mixamo.com' no FBX 'Standing 1H Magic Attack 02.fbx' | Classificação: ATTACK
+  - Clipa: 'mixamo.com' no FBX 'Standing 2H Cast Spell 01.fbx' | Classificação: MAGIC CAST
+  - Clipa: 'mixamo.com' no FBX 'Standing 2H Magic Attack 01.fbx' | Classificação: ATTACK
+  - Clipa: 'mixamo.com' no FBX 'Standing 2H Magic Attack 05.fbx' | Classificação: ATTACK
+  - Clipa: 'mixamo.com' no FBX 'Zombie Attack.fbx' | Classificação: ATTACK
+  - Clipa: 'mixamo.com' no FBX 'Zombie Run.fbx' | Classificação: RUN
+  - Clipa: 'mixamo.com' no FBX 'Zombie Walk.fbx' | Classificação: WALK
+  - Clipa: 'Flying Knee Punch Combo' no FBX 'Flying Knee Punch Combo.fbx' | Classificação: OUTRO
+  - Clipa: 'Gunplay' no FBX 'Gunplay.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'Shooting Gun' no FBX 'Shooting Gun.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'Shooting' no FBX 'Shooting.fbx' | Classificação: SHOOT / COMBAT
+  - Clipa: 'Standing 1H Cast Spell 01' no FBX 'Standing 1H Cast Spell 01.fbx' | Classificação: MAGIC CAST
+  - Clipa: 'Standing 1H Magic Attack 02' no FBX 'Standing 1H Magic Attack 02.fbx' | Classificação: ATTACK
+  - Clipa: 'Standing 2H Cast Spell 01' no FBX 'Standing 2H Cast Spell 01.fbx' | Classificação: MAGIC CAST
+  - Clipa: 'Standing 2H Magic Attack 01' no FBX 'Standing 2H Magic Attack 01.fbx' | Classificação: ATTACK
+  - Clipa: 'Standing 2H Magic Attack 05' no FBX 'Standing 2H Magic Attack 05.fbx' | Classificação: ATTACK
+  - Clipa: 'Zombie Attack' no FBX 'Zombie Attack.fbx' | Classificação: ATTACK
+  - Clipa: 'Zombie Run' no FBX 'Zombie Run.fbx' | Classificação: RUN
+  - Clipa: 'Zombie Walk' no FBX 'Zombie Walk.fbx' | Classificação: WALK
+  - Clipa: 'open-close' no FBX 'crate-medium.fbx' | Classificação: OUTRO
+  - Clipa: 'close' no FBX 'crate-medium.fbx' | Classificação: OUTRO
+  - Clipa: 'open' no FBX 'crate-medium.fbx' | Classificação: OUTRO
+  - Clipa: 'open-close' no FBX 'crate-small.fbx' | Classificação: OUTRO
+  - Clipa: 'close' no FBX 'crate-small.fbx' | Classificação: OUTRO
+  - Clipa: 'open' no FBX 'crate-small.fbx' | Classificação: OUTRO
+  - Clipa: 'open-close' no FBX 'crate-wide.fbx' | Classificação: OUTRO
+  - Clipa: 'close' no FBX 'crate-wide.fbx' | Classificação: OUTRO
+  - Clipa: 'open' no FBX 'crate-wide.fbx' | Classificação: OUTRO
+
+--------------------------------------------------
+E) TESTE DE ESTICAMENTO (RELAÇÃO OSSO-PAI):
+--------------------------------------------------
+Clipes a testar: 1
+Limite de tolerância estipulado: 3.00%
+-------------------------------------------------------------------------------------
+CLIPE                | PIOR OSSO                    | VARIAÇÃO MÁX    | STATUS    
+-------------------------------------------------------------------------------------
+Gunplay              | Head->Neck                   |          0,00% | PASS      
+-------------------------------------------------------------------------------------
+
+==================================================
+               FIM DO DIAGNÓSTICO                 
+==================================================
