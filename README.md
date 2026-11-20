@@ -15,9 +15,9 @@ vida e armas novas.
 | --- | --- |
 | ![Loja](docs/images/loja.jpg) | ![Inimigos](docs/images/inimigos.jpg) |
 
-| Ícone de poder | |
+| Ícone de poder | Game over |
 | --- | --- |
-| ![Poder](docs/images/poder.jpg) | |
+| ![Poder](docs/images/poder.jpg) | ![Game over](docs/images/gameover.jpg) |
 
 ## Funcionalidades
 
