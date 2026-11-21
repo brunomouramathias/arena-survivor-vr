@@ -553,7 +553,7 @@ namespace ArenaSurvivor.UI
                 "Fique entre a horda e as torres: elas são o objetivo, não o cenário. Torre no chão é menos vida para você.",
                 "Cada onda limpa solta um ícone de poder no chão — pegue antes de entrar na loja, ele evolui a arma.",
                 "Na loja, DANO é o primeiro upgrade que compensa; escopeta e arma de energia valem a partir da 2ª onda.",
-                "A mira assistida puxa o tiro que passa perto: atire andando e mirando no inimigo mais próximo.",
+                "O tiro sai reto da mira: acerte o peito e ande enquanto atira — parado você vira alvo fácil.",
                 "A esquiva tem recarga — use para sair do cerco, não para atravessar o mapa.",
                 "Sem munição a arma troca sozinha para a pistola (reserva infinita). Recarregue atrás das torres.",
             };

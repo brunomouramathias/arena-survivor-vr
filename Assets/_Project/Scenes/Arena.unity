@@ -2644,6 +2644,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e2aefca6651ef4792b7886eb36b2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArenaSurvivor.Core.ScoreService
+  pointsPerSecond: 5
+  pointsPerSecondSurvived: 10
+  pointsPerTowerAlive: 250
+  pointsPerTowerPercent: 5
 --- !u!1001 &375965178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9870,10 +9874,12 @@ MonoBehaviour:
   DamageMultiplier: 1
   ReloadMultiplier: 1
   SpeedMultiplier: 1
+  FireRateMultiplier: 1
   DamageLevel: 0
   ReloadLevel: 0
   MaxHpLevel: 0
   SpeedLevel: 0
+  FireRateLevel: 0
 --- !u!114 &1342282618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9887,6 +9893,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArenaSurvivor.Player.PlayerHealth
   maxHealth: 3
+  respawnDelay: 1.6
+  respawnInvulnerability: 2.5
+  respawnScorePenalty: 50
 --- !u!114 &1342282619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10211,8 +10220,11 @@ MonoBehaviour:
   musicTracks: []
   crossfadeTime: 2
   sfxPoolSize: 15
-  playerDamageSound: {fileID: 0}
-  playerDeathSound: {fileID: 0}
+  playerDamageVolume: 0.45
+  playerDeathVolume: 0.5
+  damageSoundCooldown: 0.12
+  playerDamageSound: {fileID: 8300000, guid: 633b572be728422428b35747251a045a, type: 3}
+  playerDeathSound: {fileID: 8300000, guid: 5a9015c3ffd59c045a8dce5ce82fd740, type: 3}
   playerHealSound: {fileID: 0}
   weaponFireSound: {fileID: 0}
   weaponReloadSound: {fileID: 0}

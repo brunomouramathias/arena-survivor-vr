@@ -105,19 +105,12 @@ namespace ArenaSurvivor.Weapons
             currentClip--;
             OnAmmoChanged?.Invoke();
 
-            // Calcula direção com dispersão (mira projetada na altura do cano: a bala não entra no chão)
-            Vector3 aimTarget = targetPoint;
-            aimTarget.y = muzzlePoint.position.y;
-            Vector3 baseDir = (aimTarget - muzzlePoint.position).normalized;
-
-            // Mira assistida: se o tiro passa perto de um inimigo, desvia um pouco até ele
-            baseDir = AimAssist.Apply(muzzlePoint.position, baseDir);
+            // Direção do tiro = exatamente onde a mira está. Sem desvio, sem curva:
+            // a bala sai reta e continua reta até o fim do alcance.
+            Vector3 baseDir = AimDirection(targetPoint);
 
             for (int i = 0; i < data.pellets; i++)
-            {
-                Vector3 dir = ApplySpread(baseDir);
-                SpawnProjectile(muzzlePoint.position, dir);
-            }
+                SpawnProjectile(muzzlePoint.position, DirectionForPellet(i, baseDir));
 
             // Muzzle flash
             if (data.muzzleFlashPrefab != null)
@@ -137,11 +130,26 @@ namespace ArenaSurvivor.Weapons
             // (já aplicado no Projectile.Initialize via PlayerShooter)
         }
 
-        private Vector3 ApplySpread(Vector3 dir)
+        // Direção da mira, projetada na altura do cano (a bala não "entra no chão")
+        public Vector3 AimDirection(Vector3 targetPoint)
         {
-            if (data.spread <= 0f) return dir;
-            float angle = Random.Range(-data.spread, data.spread);
-            return Quaternion.Euler(0f, angle, 0f) * dir;
+            Vector3 aimTarget = targetPoint;
+            aimTarget.y = muzzlePoint != null ? muzzlePoint.position.y : transform.position.y;
+            Vector3 origin = muzzlePoint != null ? muzzlePoint.position : transform.position;
+            Vector3 dir = aimTarget - origin;
+            return dir.sqrMagnitude > 0.0001f ? dir.normalized : transform.forward;
+        }
+
+        // Dispersão SIMÉTRICA em torno da mira: os bagos se abrem igualmente para os dois
+        // lados, então o centro do tiro continua exatamente onde o jogador apontou.
+        public Vector3 DirectionForPellet(int index, Vector3 baseDir)
+        {
+            if (data.spread <= 0f || data.pellets <= 0) return baseDir;
+
+            // -1 .. +1, com passo constante (bago 0 no centro quando a quantidade é ímpar)
+            float t = data.pellets <= 1 ? 0f : Mathf.Clamp(2f * index / (data.pellets - 1) - 1f, -1f, 1f);
+            float angle = t * data.spread;
+            return Quaternion.Euler(0f, angle, 0f) * baseDir;
         }
 
         private void SpawnProjectile(Vector3 origin, Vector3 dir)

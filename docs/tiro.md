@@ -38,21 +38,23 @@ Physics.OverlapCapsuleNonAlloc(from, to, hitRadius, ...)   // raio 0,28 m
 `hitRadius = 0,28 m` (antes o colisor tinha 0,08 m). O raio efetivo de acerto é
 ~3,5× maior, sem virar um tiro teleguiado.
 
-### 3. Mira assistida (`Weapons/AimAssist.cs`)
+### 3. Tiro reto (sem mira assistida)
 
-Quando o disparo passa **perto** de um inimigo, a direção é levemente puxada para o peito dele:
+**A bala vai reta: não curva e não é desviada.** A mira assistida antiga (que puxava o tiro
+para o inimigo mais próximo, até 14°) ficou **desligada** — ela fazia o disparo sair numa
+direção diferente da mira, o que atrapalhava na hora de acertar de longe.
 
-| Parâmetro | Valor | Efeito |
-|---|---|---|
-| `Radius` | 1,1 m | bolha em volta da linha de tiro |
-| `MaxAngle` | 14° | desvio máximo (não é aimbot) |
+O que existe hoje:
 
-- usa `SphereCastNonAlloc` e só ajuda se o inimigo for o primeiro obstáculo
-  (parede na frente cancela a ajuda);
-- mira no **peito** (`ChestPoint`, 62% da altura do colisor), não nos pés;
-- quanto menor o erro de mira, mais forte a correção (`Slerp` proporcional).
+- `Weapon.AimDirection(targetPoint)` — direção da mira, projetada na altura do cano (a bala
+  não "entra no chão" quando o cursor está perto);
+- `Weapon.DirectionForPellet(i, baseDir)` — dispersão **simétrica**: os bagos da escopeta se
+  abrem igualmente para os dois lados (12°), então o centro do tiro continua exatamente onde
+  o jogador apontou. Pistola e arma de energia têm `spread = 0` (tiro 100% reto);
+- `Projectile` só anda no próprio `forward` (sem gravidade, sem perseguição).
 
-Ligado no `Weapon.Fire`, antes da dispersão dos pellets — vale para pistola, escopeta e energia.
+`AimAssist` sobrou apenas como `ChestPoint` (ponto de mira no peito do inimigo, usado nos
+testes), sem alterar nenhuma direção de tiro.
 
 ## Verificação
 
@@ -61,9 +63,10 @@ Ligado no `Weapon.Fire`, antes da dispersão dos pellets — vale para pistola, 
 ```
 [TIRO] 2 disparos mataram o bruxo? True (vida inicial 36)
 [OK]   Tiro do jogador acerta e mata o bruxo azul — 2 disparos para matar 36HP
-[MIRA] erro antes=6,0° depois=1,7°
-[OK]   Mira assistida puxa o tiro para o inimigo quando passa perto — 6,0° → 1,7°
-[OK]   Mira assistida não altera tiro apontado para longe do inimigo — desvio=0,0°
+[TIRO] desvio máximo do caminho: 0,03°
+[OK]   Tiro vai reto: a bala não desvia nem curva depois de sair — pior desvio = 0,03°
+[TIRO] escopeta: centro da dispersão=0,00° maior desvio=12,0°
+[OK]   Escopeta espalha os bagos em torno da mira (centro continua no alvo)
 === RESULTADO: 19 OK / 0 FALHAS ===
 ```
 

@@ -1,0 +1,9 @@
+﻿=== AVISO DE TORRE CAINDO (HUD) ===
+Data: 2026-11-21 18:04:09
+
+[1] HUD presente=True aviso presente=True => PASS
+[2] antes de cair: texto='' alfa=0,00 => PASS
+[3] torre derrubada=True aviso='TORRE NORDESTE DESTRUÍDA   ·   3/4 DE PÉ' alfa=1,00 => PASS
+[4] aviso desapareceu sozinho: alfa=0,00 => PASS
+
+=== RESULTADO: PASS ===

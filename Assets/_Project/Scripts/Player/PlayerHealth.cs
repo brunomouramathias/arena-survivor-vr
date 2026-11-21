@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using ArenaSurvivor.Audio;
 using ArenaSurvivor.Core;
 
 namespace ArenaSurvivor.Player
@@ -61,6 +62,7 @@ namespace ArenaSurvivor.Player
             int dmg = maxHealth <= 3 ? 1 : amount;
             currentHealth = Mathf.Max(0, currentHealth - dmg);
             EventBus.Publish(new PlayerDamagedEvent { CurrentHealth = currentHealth, MaxHealth = maxHealth });
+            AudioManager.Instance?.PlayPlayerDamageSound();
             StartCoroutine(HitFlash());
             StartCoroutine(Invulnerability(0.9f));
 
@@ -81,6 +83,7 @@ namespace ArenaSurvivor.Player
             if (isDead) return;
             isDead = true;
             EventBus.Publish(new PlayerDiedEvent());
+            AudioManager.Instance?.PlayPlayerDeathSound();
 
             // A derrota NÃO acontece aqui: o jogo segue enquanto houver torre de pé.
             // O jogador fica nocauteado alguns segundos e volta para a arena.

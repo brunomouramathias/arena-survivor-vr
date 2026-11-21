@@ -1,0 +1,10 @@
+﻿=== SONS DE DANO E MORTE ===
+Data: 2026-11-21 18:30:47
+
+[1] clipes: dano=Sfx_PlayerDamage (0,28s) morte=Sfx_PlayerDeath (1,25s) => PASS
+[2] pico dos arquivos: dano=-5,4 dBFS morte=-4,0 dBFS (limite -3 dBFS) => PASS
+[3] dano: clip='Sfx_PlayerDamage' volume=0,45 (esperado até 0,60) => PASS
+[3b] curar não faz barulho: True => PASS
+[4] morte: clip='Sfx_PlayerDeath' volume=0,50 (esperado até 0,60) => PASS
+
+=== RESULTADO: PASS ===

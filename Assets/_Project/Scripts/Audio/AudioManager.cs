@@ -22,6 +22,12 @@ namespace ArenaSurvivor.Audio
         [Header("SFX Pool")]
         [SerializeField] private int sfxPoolSize = 20;
 
+        [Header("Volume dos SFX globais (0-1)")]
+        [Range(0f, 1f)] [SerializeField] private float playerDamageVolume = 0.45f;
+        [Range(0f, 1f)] [SerializeField] private float playerDeathVolume  = 0.50f;
+        [Tooltip("Tempo mínimo entre dois sons de dano, para não virar metralhadora")]
+        [SerializeField] private float damageSoundCooldown = 0.12f;
+
         [Header("Global SFX")]
         [SerializeField] private AudioClip playerDamageSound;
         [SerializeField] private AudioClip playerDeathSound;
@@ -38,6 +44,15 @@ namespace ArenaSurvivor.Audio
         private bool        usingSourceA = true;
 
         private List<AudioSource> sfxPool = new();
+
+        // controle do som de dano: toca só no golpe, nunca ao curar/nascer
+        private float lastDamageSoundTime = -10f;
+
+        // último SFX disparado (usado pelos testes automatizados)
+        public AudioClip LastUISound       { get; private set; }
+        public float     LastUISoundVolume { get; private set; }
+        public AudioClip PlayerDamageClip => playerDamageSound;
+        public AudioClip PlayerDeathClip  => playerDeathSound;
 
         private void Awake()
         {
@@ -74,16 +89,12 @@ namespace ArenaSurvivor.Audio
 
             // Inscreve no barramento
             EventBus.Subscribe<WaveStartedEvent>(OnWaveStarted);
-            EventBus.Subscribe<PlayerDamagedEvent>(OnPlayerDamaged);
-            EventBus.Subscribe<PlayerDiedEvent>(OnPlayerDied);
             EventBus.Subscribe<EnemyDiedEvent>(OnEnemyDied);
         }
 
         private void OnDestroy()
         {
             EventBus.Unsubscribe<WaveStartedEvent>(OnWaveStarted);
-            EventBus.Unsubscribe<PlayerDamagedEvent>(OnPlayerDamaged);
-            EventBus.Unsubscribe<PlayerDiedEvent>(OnPlayerDied);
             EventBus.Unsubscribe<EnemyDiedEvent>(OnEnemyDied);
         }
 
@@ -102,16 +113,21 @@ namespace ArenaSurvivor.Audio
             PlayUISound(waveStartSound);
         }
 
-        private void OnPlayerDamaged(PlayerDamagedEvent e)
+        // Chamados pelo PlayerHealth: o golpe sabe que houve dano (o evento de vida também
+        // dispara ao curar e ao renascer, então não serve para decidir o som).
+        public void PlayPlayerDamageSound()
         {
-            PlayUISound(playerDamageSound);
+            if (Time.unscaledTime - lastDamageSoundTime < damageSoundCooldown) return;
+            lastDamageSoundTime = Time.unscaledTime;
+            PlayUISound(playerDamageSound, 0.06f, playerDamageVolume);
         }
 
-        private void OnPlayerDied(PlayerDiedEvent e)
+        public void PlayPlayerDeathSound()
         {
-            PlayUISound(playerDeathSound);
-            PlayUISound(gameOverSound);
+            PlayUISound(playerDeathSound, 0.03f, playerDeathVolume);
         }
+
+        public void ClearLastUISound() => LastUISound = null;
 
         private void OnEnemyDied(EnemyDiedEvent e)
         {
@@ -159,15 +175,19 @@ namespace ArenaSurvivor.Audio
         }
 
         // Reproduz um SFX 2D (UI) com variação de pitch
-        public void PlayUISound(AudioClip clip, float pitchVariation = 0.05f)
+        public void PlayUISound(AudioClip clip, float pitchVariation = 0.05f, float volume = 1f)
         {
             if (clip == null) return;
 
             var src = GetFreeSFXSource();
             if (src == null) return;
 
+            LastUISound       = clip;
+            LastUISoundVolume = Mathf.Clamp01(volume);
+
             src.spatialBlend = 0f;
-            src.pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
+            src.volume       = LastUISoundVolume;
+            src.pitch        = 1f + Random.Range(-pitchVariation, pitchVariation);
             src.PlayOneShot(clip);
         }
 

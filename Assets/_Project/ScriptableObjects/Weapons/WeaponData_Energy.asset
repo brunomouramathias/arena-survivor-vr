@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 26
   fireRate: 6
   pellets: 1
-  spread: 2
+  spread: 0
   projectilePrefab: {fileID: 4487333240727212829, guid: d6e529e84e748bb458c9e637d8c409c2, type: 3}
   projectileSpeed: 40
   projectileRange: 80

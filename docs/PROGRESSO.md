@@ -215,3 +215,53 @@ Documentação: `docs/menu.md`
   com a tela nova, `docs/menu.md`, três imagens novas no README e os relatórios de teste.
   A versão reduzida foi validada abrindo uma cópia limpa no Unity: 19 OK na verificação de
   ritmo, tela de abertura PASS e loja PASS dentro do próprio repositório.
+
+## Sons de dano e morte do jogador (21/11 — parte 8)
+
+Prova: `docs/screens/audio/sons.txt` (play mode, 5/5 PASS). Documentação: `docs/audio.md`.
+
+- **Novos SFX**: `Sfx_PlayerDamage.wav` (0,30 s, impacto grave com estalo) e
+  `Sfx_PlayerDeath.wav` (1,30 s, queda descendente com sub-grave), sintetizados, mono 44,1 kHz,
+  normalizados em −6 dBFS — nada de pico estourado.
+- **Volume baixo em código** (`AudioMixer` não é usado na cena): `playerDamageVolume = 0,28`
+  e `playerDeathVolume = 0,32`, o que deixa o pico efetivo em torno de −17 dBFS, bem abaixo da
+  música e do resto do combate. `damageSoundCooldown = 0,12 s` evita repetição em dano em área.
+- **Disparo no lugar certo**: `PlayerHealth.TakeDamage` → `PlayPlayerDamageSound()` e
+  `PlayerHealth.Die` → `PlayPlayerDeathSound()`. O `PlayerDamagedEvent` **não** serve para isso:
+  ele também dispara ao curar e ao renascer (o som de dano tocaria ao beber vida).
+- **Instalação/importação**: `Tools ▸ Arena ▸ Instalar Sons de Dano e Morte` (PCM,
+  *decompress on load*, mono, preload) e gravação dos campos no `AudioManager` da cena `Arena`.
+- **Verificação**: `Tools ▸ Arena ▸ Teste Sons de Dano e Morte` — clipes ligados, pico dos
+  arquivos ≤ −3 dBFS, golpe tocando a 0,28, cura silenciosa e nocaute tocando a 0,32. **5/5 PASS**.
+  Regressão: ritmo 19 OK / 0 falhas, loja PASS, tiro PASS, tela de abertura PASS.
+
+## Tiro reto, aviso de torre e som de dano audível (21/11 — parte 9)
+
+- **Tiro ia para outra direção**: `Weapon.Fire` chamava `AimAssist.Apply`, que puxava a bala
+  até 14° para o inimigo mais próximo — o disparo saía fora da mira e parecia "curvar".
+  Removido: agora `AimDirection()` usa exatamente a mira (projetada na altura do cano),
+  `DirectionForPellet()` espalha os bagos da escopeta de forma **simétrica** (centro = mira) e
+  a arma de energia ficou com `spread = 0`. O projétil continua andando só no `forward`, então
+  a trajetória é reta do começo ao fim. O texto da dica no "Como jogar" foi atualizado junto.
+- **Aviso de torre caindo**: `GameHUD` assina `TowerHealth.DestroyedEvent` e mostra uma linha
+  pequena embaixo do número da onda — `TORRE NORDESTE DESTRUÍDA · 3/4 DE PÉ` (ou
+  `ÚLTIMA TORRE DESTRUÍDA`) — que desvanece em 3,2 s. O nome sai do lado da arena
+  (os quatro cantos).
+- **Som de dano não aparecia**: a primeira versão tinha quase só graves (60–130 Hz), sumindo em
+  caixinha de notebook. Os dois clipes foram refeitos com conteúdo em médio-grave
+  (300 Hz – 2 kHz) e o volume subiu de 0,28/0,32 para **0,45/0,50** (pico efetivo ≈ −12 dBFS,
+  ainda discreto). Nocaute usa 0,50.
+- **Verificação**: ritmo **19 OK / 0 falhas** (novos testes: tiro reto com desvio de 0,03° e
+  escopeta com centro de dispersão 0,00°), sons **5/5 PASS** (`docs/screens/audio/sons.txt`),
+  aviso de torre **4/4 PASS** (`docs/screens/hud/torre.txt`), loja PASS, tiro PASS, menu PASS.
+
+## Tempo de sobrevivência em minutos no fim de jogo (21/11 — parte 10)
+
+- **Antes**: a tela de fim mostrava `Sobreviveu 227s` — número cru, difícil de ler depois de
+  partidas longas.
+- **Agora**: `GameHUD.FormatDuration()` formata o tempo do `ScoreService.PlaySeconds`:
+  abaixo de 60 s continua em segundos (`48 s`); a partir de 1 minuto vira `3 min 47 s`
+  (e `1 min` quando é redondo). A linha ficou: `Sobreviveu 1 min 12 s (+720)  Torres de pé (+0)  Vida das torres (+0)`.
+- **Verificação**: `Verificar Ritmo e Poderes` ganhou a checagem de formato (0 s / 48 s / 59 s /
+  1 min / 3 min 47 s / 10 min 05 s) → **20 OK / 0 falhas**. Captura real do fim de jogo em
+  `docs/screens/hud/gameover_tempo.png` (`Tools ▸ Arena ▸ Capturar Tela de Fim de Jogo`).

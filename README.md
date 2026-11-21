@@ -24,9 +24,13 @@ pessoal e o guia **Como jogar** com todos os controles e a estratégia de cada o
 | --- | --- |
 | ![Loja](docs/images/loja.jpg) | ![Inimigos](docs/images/inimigos.jpg) |
 
-| Ícone de poder | Game over |
+| Ícone de poder | Torre caindo |
 | --- | --- |
-| ![Poder](docs/images/poder.jpg) | ![Game over](docs/images/gameover.jpg) |
+| ![Poder](docs/images/poder.jpg) | ![Torre caindo](docs/images/torre.jpg) |
+
+| Game over |
+| --- |
+| ![Game over](docs/images/gameover.jpg) |
 
 ## Funcionalidades
 
@@ -45,8 +49,11 @@ pessoal e o guia **Como jogar** com todos os controles e a estratégia de cada o
   O jogo termina quando a última torre cai.
 - **Três armas** com munição, recarga e recuo: pistola, escopeta e arma de energia
   (perfurante). Liberadas na loja ou pelos ícones de poder.
-- **Mira assistida** + colisão por varredura: a bala não atravessa o inimigo entre frames,
-  e um tiro que passa perto é levemente puxado para o peito do alvo.
+- **Tiro reto** + colisão por varredura: a bala sai exatamente na direção da mira, não curva
+  e não atravessa o inimigo entre frames. A escopeta abre os 7 bagos de forma **simétrica**
+  (o centro do tiro continua no cursor) e a arma de energia atira sem dispersão.
+- **Sons discretos**: impacto ao levar dano e queda no nocaute, com volume baixo
+  (≈ −12 dBFS) e conteúdo em médio-grave para serem ouvidos em qualquer caixa de som.
 - **Nocaute e renascimento**: ao perder a vida o jogador volta em 1,6 s, com
   invulnerabilidade curta e −50 pontos (não é game over imediato).
 - **Loja entre ondas**: upgrades de dano, recarga e vida máxima, além do desbloqueio das
@@ -54,8 +61,9 @@ pessoal e o guia **Como jogar** com todos os controles e a estratégia de cada o
 - **Ícone de poder**: ao limpar a onda brota o poder no local do último inimigo morto e a
   sequência evolui (velocidade → arma → cadência → dano → vida), ficando mais forte a
   cada ciclo.
-- **HUD e telas**: corações, pontos, tempo, torres vivas, tela de game over com
-  detalhamento da pontuação e tela de vitória.
+- **HUD e telas**: corações, pontos, tempo, torres vivas, **aviso quando uma torre cai**
+  (`TORRE NORDESTE DESTRUÍDA · 3/4 DE PÉ`), tela de game over com o **tempo de sobrevivência
+  em minutos** (`1 min 12 s`) e detalhamento da pontuação, e tela de vitória.
 - **Apresentação**: skins texturizadas pintadas por osso, barras de vida procedurais,
   arena de floresta com castelos, tochas e partículas.
 
@@ -161,7 +169,9 @@ Os testes ficam em `Tools ▸ Arena` no menu do editor e gravam relatórios em `
 | --- | --- | --- |
 | **Teste Tela de Abertura** (play mode) | estrutura do menu, troca dos três modos com a ficha de cada um, "Como jogar" abrindo e fechando por clique real, INICIAR levando à arena com a dificuldade aplicada (vida, pontos e HUD) | [`docs/screens/menu/menu_probe.txt`](docs/screens/menu/menu_probe.txt) |
 | **Verificar Dificuldades** (edit mode) | 16 checagens nos prefabs reais: vida/velocidade/quantidade por modo, ordem dos modos e textos da ficha | [`docs/screens/menu/dificuldades.txt`](docs/screens/menu/dificuldades.txt) |
-| **Verificar Ritmo e Poderes** (edit mode) | 19 checagens: tiros para matar por onda, vida e velocidade dos inimigos, sequência dos poderes, tiro acertando o bruxo e mira assistida | [`docs/screens/poderes/verificacao.txt`](docs/screens/poderes/verificacao.txt) |
+| **Verificar Ritmo e Poderes** (edit mode) | 20 checagens: tiros para matar por onda, vida e velocidade dos inimigos, sequência dos poderes, tiro acertando o bruxo, **tiro reto** (desvio 0,03°), dispersão simétrica da escopeta e formato do tempo de sobrevivência | [`docs/screens/poderes/verificacao.txt`](docs/screens/poderes/verificacao.txt) |
+| **Teste Sons de Dano e Morte** (play mode) | clipes ligados na cena, pico dos arquivos, golpe tocando a 0,45, cura silenciosa e nocaute a 0,50 | [`docs/screens/audio/sons.txt`](docs/screens/audio/sons.txt) |
+| **Teste Aviso de Torre Caindo** (play mode) | aviso aparece ao derrubar a torre com o lado certo e o placar de torres, e desvanece sozinho | [`docs/screens/hud/torre.txt`](docs/screens/hud/torre.txt) |
 | **Teste Loja** (play mode) | fim de onda → ícone de poder → loja com compra → próxima onda; e loja sem tela não travando o jogo | [`docs/screens/loja/fluxo.txt`](docs/screens/loja/fluxo.txt) |
 | **Teste Tiro das Armas** (play mode) | pistola, escopeta e arma de energia atirando depois de desbloqueadas (loja e poder) e troca automática com munição esgotada | [`docs/screens/armas/tiro_armas.txt`](docs/screens/armas/tiro_armas.txt) |
 | **Teste Anti-Travamento** (play mode) | pausa/loja nunca deixam o `Time.timeScale` em 0 sem tela | [`docs/teste_travamento.txt`](docs/teste_travamento.txt) |
@@ -171,7 +181,8 @@ Os testes ficam em `Tools ▸ Arena` no menu do editor e gravam relatórios em `
 - [`docs/RELATORIO_TECNICO.md`](docs/RELATORIO_TECNICO.md) — arquitetura e decisões técnicas.
 - [`docs/PROGRESSO.md`](docs/PROGRESSO.md) — histórico de implementação e correções.
 - [`docs/menu.md`](docs/menu.md) — tela de abertura, modos de jogo e como testar.
-- [`docs/tiro.md`](docs/tiro.md) — sistema de tiro, colisão por varredura e mira assistida.
+- [`docs/tiro.md`](docs/tiro.md) — sistema de tiro, colisão por varredura e tiro reto.
+- [`docs/audio.md`](docs/audio.md) — sons de dano e morte: clipes, volumes e quando tocam.
 - [`docs/loja.md`](docs/loja.md) — loja entre ondas e travas anti-travamento.
 - [`docs/poderes.md`](docs/poderes.md) — ritmo das ondas, poderes e nocaute.
 - [`docs/wizards.md`](docs/wizards.md) — bruxos, poderes e animação procedural.

@@ -17,6 +17,9 @@ namespace ArenaSurvivor.UI
         private Text waveText;
         private Text hudScoreText;
         private Text hudInfoText;
+        private Text towerToast;             // aviso pequeno quando uma torre cai
+        private float towerToastTimer;
+        private const float TowerToastTime = 3.2f;
         private static Sprite heartSprite;
 
         private void Start()
@@ -24,12 +27,61 @@ namespace ArenaSurvivor.UI
             Build();
             player = Object.FindAnyObjectByType<PlayerHealth>();
             GameManager.OnGameStateChanged += OnStateChanged;
+
+            // aviso de cada torre que cai
+            foreach (var tower in ArenaSurvivor.World.TowerHealth.All)
+                if (tower != null) tower.DestroyedEvent += OnTowerDestroyed;
             OnStateChanged(GameManager.Instance != null ? GameManager.Instance.CurrentState : GameState.Playing);
         }
 
         private void OnDestroy()
         {
             GameManager.OnGameStateChanged -= OnStateChanged;
+
+            foreach (var tower in ArenaSurvivor.World.TowerHealth.All)
+                if (tower != null) tower.DestroyedEvent -= OnTowerDestroyed;
+        }
+
+        // ── aviso de torre destruída ─────────────────────────────────────────
+        private void OnTowerDestroyed(ArenaSurvivor.World.TowerHealth tower)
+        {
+            if (towerToast == null) return;
+
+            int alive = 0, total = 0;
+            foreach (var t in ArenaSurvivor.World.TowerHealth.All)
+            {
+                if (t == null) continue;
+                total++;
+                if (!t.Destroyed) alive++;
+            }
+
+            string where = TowerSide(tower);
+            towerToast.text = alive > 0
+                ? $"TORRE {where} DESTRUÍDA   ·   {alive}/{total} DE PÉ"
+                : "ÚLTIMA TORRE DESTRUÍDA";
+            towerToast.color = new Color(1f, 0.55f, 0.34f, 1f);
+            towerToastTimer = TowerToastTime;
+        }
+
+        // nome pelo lado da arena (as quatro torres ficam nos cantos)
+        private static string TowerSide(ArenaSurvivor.World.TowerHealth tower)
+        {
+            Vector3 center = Vector3.zero;
+            int n = 0;
+            foreach (var t in ArenaSurvivor.World.TowerHealth.All)
+                if (t != null) { center += t.transform.position; n++; }
+            if (n == 0) return "";
+            center /= n;
+
+            Vector3 d = tower.transform.position - center;
+            float ax = Mathf.Abs(d.x), az = Mathf.Abs(d.z);
+            if (ax < 0.5f && az < 0.5f) return "CENTRAL";
+
+            bool leste = d.x > 0f, norte = d.z > 0f;
+            if (ax > az * 1.6f) return leste ? "LESTE" : "OESTE";
+            if (az > ax * 1.6f) return norte ? "NORTE" : "SUL";
+            return norte ? (leste ? "NORDESTE" : "NOROESTE")
+                         : (leste ? "SUDESTE"  : "SUDOESTE");
         }
 
         private void Update()
@@ -44,6 +96,24 @@ namespace ArenaSurvivor.UI
             }
             if (hudScoreText != null && ScoreService.Instance != null)
                 hudScoreText.text = $"PONTOS: {ScoreService.Instance.CurrentScore}";
+
+            // desvanece o aviso de torre
+            if (towerToast != null)
+            {
+                if (towerToastTimer > 0f)
+                {
+                    towerToastTimer -= Time.unscaledDeltaTime;
+                    var c = towerToast.color;
+                    c.a = Mathf.Clamp01(towerToastTimer / 0.7f);
+                    towerToast.color = c;
+                }
+                else if (towerToast.color.a > 0f)
+                {
+                    var c = towerToast.color;
+                    c.a = 0f;
+                    towerToast.color = c;
+                }
+            }
 
             if (hudInfoText != null)
             {
@@ -95,10 +165,25 @@ namespace ArenaSurvivor.UI
                 {
                     var s = ScoreService.Instance;
                     scoreBreakdownText.text =
-                        $"Sobreviveu {Mathf.RoundToInt(s.PlaySeconds)}s (+{s.TimeBonus})   " +
+                        $"Sobreviveu {FormatDuration(s.PlaySeconds)} (+{s.TimeBonus})   " +
                         $"Torres de pé (+{s.TowerBonus})   Vida das torres (+{s.TowerHealthBonus})";
                 }
             }
+        }
+
+        // Tempo de sobrevivência legível: até 59 s mostra segundos, acima disso mostra minutos
+        // ("48 s", "3 min 47 s", "1 min"). Sempre com dois dígitos quando tem minutos e segundos.
+        public static string FormatDuration(float seconds)
+        {
+            int total = Mathf.Max(0, Mathf.RoundToInt(seconds));
+
+            if (total < 60) return $"{total} s";
+
+            int minutes = total / 60;
+            int rest    = total % 60;
+
+            if (rest == 0) return $"{minutes} min";
+            return $"{minutes} min {rest:00} s";
         }
 
         private void UpdateHearts()
@@ -180,6 +265,22 @@ namespace ArenaSurvivor.UI
             irt.pivot = new Vector2(0f, 1f);
             irt.anchoredPosition = new Vector2(24f, -74f);
             hudInfoText.alignment = TextAnchor.MiddleLeft;
+
+            // aviso curto de torre caindo (aparece embaixo do número da onda)
+            towerToast = MakeText(canvasGO.transform, font, "", 26, new Color(1f, 0.55f, 0.34f, 0f),
+                                  Vector2.zero, new Vector2(1100f, 34f));
+            var trt = towerToast.rectTransform;
+            trt.anchorMin = trt.anchorMax = new Vector2(0.5f, 1f);
+            trt.pivot = new Vector2(0.5f, 1f);
+            trt.anchoredPosition = new Vector2(0f, -134f);
+            towerToast.alignment = TextAnchor.MiddleCenter;
+            towerToast.gameObject.name = "TowerToast";
+
+            // contorno escuro: o aviso aparece sobre torre clara, chão escuro e fogo
+            var outline = towerToast.gameObject.AddComponent<Outline>();
+            outline.effectColor    = new Color(0.06f, 0.03f, 0.05f, 0.95f);
+            outline.effectDistance = new Vector2(1.6f, -1.6f);
+            outline.useGraphicAlpha = false;
 
             // ----- tela de game over -----
             gameOverPanel = new GameObject("GameOverPanel", typeof(RectTransform));

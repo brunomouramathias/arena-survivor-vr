@@ -49,6 +49,7 @@ namespace ArenaSurvivor.Editor
                 VerifyPowerUps();
                 VerifyReviveWiring();
                 VerifyShooting();
+                VerifySurvivalTimeFormat();
                 CapturePowerUpIcon();
             }
             catch (System.Exception e)
@@ -219,34 +220,98 @@ namespace ArenaSurvivor.Editor
                   eb.IsDead && tiros <= 4,
                   $"{tiros} disparos para matar {vidaInicial}HP (esperado até 2 na onda 1)");
 
-            // mira assistida: mira 6 graus ao lado e a bala deve ser puxada
-            var e2 = Object.Instantiate(sorcererPrefab, new Vector3(0f, 0f, 12f), Quaternion.identity);
+            // tiro reto: a bala não desvia nem "curva" no meio do caminho
+            var e2 = Object.Instantiate(sorcererPrefab, new Vector3(6f, 0f, 12f), Quaternion.identity);
             var eb2 = e2.GetComponent<EnemyBase>();
             eb2.Initialize(2);
 
-            Vector3 origem = new Vector3(0f, 1.1f, 0f);
-            Vector3 alvoReal = AimAssist.ChestPoint(eb2);
-            Vector3 direcaoPerfeita = (alvoReal - origem).normalized;
-            Vector3 direcaoErrada = Quaternion.Euler(0f, 6f, 0f) * direcaoPerfeita;   // 6 graus de erro
+            Vector3 origem = new Vector3(0f, 30f, 0f);          // alto, sem nada no caminho
+            Vector3 direcaoMira = new Vector3(6f, 30f, 30f) - origem;
+            direcaoMira.Normalize();
 
-            float antes = Vector3.Angle(direcaoErrada, direcaoPerfeita);
-            Vector3 corrigida = AimAssist.Apply(origem, direcaoErrada);
-            float depois = Vector3.Angle(corrigida, direcaoPerfeita);
+            var balaGO = Object.Instantiate(projPrefab, origem, Quaternion.LookRotation(direcaoMira));
+            var bala = balaGO.GetComponent<Projectile>();
+            var balaCol = balaGO.GetComponent<Collider>();
+            if (balaCol != null) balaCol.enabled = false;
+            bala.Initialize(pistol.projectileSpeed, pistol.damage, 400f, false);
 
-            Log($"[MIRA] erro antes={antes:0.0}° depois={depois:0.0}°");
-            Check("Mira assistida puxa o tiro para o inimigo quando passa perto",
-                  depois < antes - 1f && depois < 2f,
-                  $"erro {antes:0.0}° -> {depois:0.0}°");
+            float piorDesvio = 0f;
+            for (int step = 0; step < 90 && balaGO != null && balaGO.activeSelf; step++)
+            {
+                bala.Advance(1f / 60f);
+                if (balaGO == null || !balaGO.activeSelf) break;
 
-            // e não deve mexer quando o inimigo está longe da linha de tiro
-            Vector3 longe = Quaternion.Euler(0f, 60f, 0f) * direcaoPerfeita;
-            Vector3 semAjuda = AimAssist.Apply(origem, longe);
-            Check("Mira assistida não altera tiro apontado para longe do inimigo",
-                  Vector3.Angle(semAjuda, longe) < 0.5f,
-                  $"desvio={Vector3.Angle(semAjuda, longe):0.0}°");
+                Vector3 percorrido = balaGO.transform.position - origem;
+                if (percorrido.sqrMagnitude > 1f)
+                    piorDesvio = Mathf.Max(piorDesvio, Vector3.Angle(percorrido, direcaoMira));
+            }
+
+            Log($"[TIRO] desvio máximo do caminho: {piorDesvio:0.00}°");
+            Check("Tiro vai reto: a bala não desvia nem curva depois de sair",
+                  piorDesvio < 0.5f,
+                  $"pior desvio em 90 frames = {piorDesvio:0.00}°");
+
+            // dispersão da escopeta é simétrica: o centro do tiro fica na mira
+            var shotgunData = AssetDatabase.LoadAssetAtPath<WeaponData>(
+                "Assets/_Project/ScriptableObjects/Weapons/WeaponData_Shotgun.asset");
+
+            if (shotgunData != null)
+            {
+                var armaGO = new GameObject("TestWeapon");
+                var arma   = armaGO.AddComponent<Weapon>();
+                var armaSo = new SerializedObject(arma);
+                armaSo.FindProperty("data").objectReferenceValue = shotgunData;
+                armaSo.ApplyModifiedPropertiesWithoutUndo();
+
+                Vector3 baseDir = Vector3.forward;
+                Vector3 soma = Vector3.zero;
+                int n = 0;
+                float maiorAngulo = 0f;
+
+                for (int i = 0; i < shotgunData.pellets; i++)
+                {
+                    var dir = arma.DirectionForPellet(i, baseDir);
+                    soma += dir;
+                    n++;
+                    maiorAngulo = Mathf.Max(maiorAngulo, Vector3.Angle(dir, baseDir));
+                }
+                float centro = Vector3.Angle(soma / n, baseDir);
+
+                Log($"[TIRO] escopeta: centro da dispersão={centro:0.00}° maior desvio={maiorAngulo:0.0}°");
+                Check("Escopeta espalha os bagos em torno da mira (centro continua no alvo)",
+                      centro < 1f && maiorAngulo <= shotgunData.spread + 0.01f,
+                      $"centro={centro:0.00}° bagos até {maiorAngulo:0.0}° (spread {shotgunData.spread}°)");
+
+                Object.DestroyImmediate(armaGO);
+            }
 
             Object.DestroyImmediate(e2);
             Object.DestroyImmediate(enemy);
+        }
+
+        // 3b) tempo de sobrevivência no fim de jogo --------------------------
+        static void VerifySurvivalTimeFormat()
+        {
+            var casos = new (float seg, string esperado)[]
+            {
+                (0f,   "0 s"),
+                (48f,  "48 s"),
+                (59.4f,"59 s"),
+                (60f,  "1 min"),
+                (227f, "3 min 47 s"),
+                (605f, "10 min 05 s"),
+            };
+
+            var erros = new System.Text.StringBuilder();
+            foreach (var (seg, esperado) in casos)
+            {
+                string obtido = ArenaSurvivor.UI.GameHUD.FormatDuration(seg);
+                if (obtido != esperado) erros.Append($"{seg}s -> '{obtido}' (esperado '{esperado}') ");
+            }
+
+            Check("Tempo de sobrevivência em minutos quando passa de 59 s",
+                  erros.Length == 0,
+                  erros.Length == 0 ? "48 s / 3 min 47 s / 10 min 05 s" : erros.ToString());
         }
 
         // 4) revive ---------------------------------------------------------
