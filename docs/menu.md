@@ -21,6 +21,20 @@ O painel da direita é o único elemento "de interface": fundo escuro translúci
 dourado fino e texto claro — a mesma paleta da loja e do HUD, para o jogo parecer um produto
 só.
 
+## Legibilidade do texto
+
+O canvas da tela de abertura é `ScreenSpaceCamera`, então tudo que ele desenha passa pelo
+pós-processamento da câmera. Três ajustes deixaram as letras nítidas sem mexer no estilo:
+
+1. **Sem pós-processamento nem AA de post sobre a UI** (`MainMenuScreen.SharpUICamera`):
+   o bloom "engolia" o texto claro e o antialiasing de tela cheia borrava letras pequenas.
+2. **Negrito de verdade**: a fonte (`LiberationSans SDF`) não tem face negrito, e o
+   `FontStyles.Bold` do TMP dobra o glifo — o resultado parecia borrado. Agora o peso vem do
+   próprio SDF (`_FaceDilate` em um material compartilhado), com o mesmo traço em 14 px e em
+   116 px.
+3. **Contraste**: textos secundários um passo mais claros e painel um pouco mais opaco,
+   mantendo a mesma paleta.
+
 ## Modos de jogo
 
 | | Fácil | Médio | Difícil |

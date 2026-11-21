@@ -197,3 +197,21 @@ Documentação: `docs/menu.md`
   verificações de balanceamento (`ArenaTuningVerify`, `ShopFlowTest`, `WeaponShootTest`) agora
   forçam **MÉDIO** no início — antes elas mediam o modo que tinha ficado salvo pelo jogador.
   Regressão: 19 OK / 0 FALHAS, loja PASS, tiro PASS.
+
+## Texto nítido na tela de abertura + publicação (21/11 — parte 7)
+
+- **Sintoma**: as letras do menu apareciam embaçadas e difíceis de ler.
+- **Causa**: o canvas é `ScreenSpaceCamera`, então o texto passava pelo pós-processamento da
+  câmera (bloom + tonemap + vinheta) e pelo antialiasing de tela cheia; e o `FontStyles.Bold`
+  do TMP em fonte sem face negrito dobra o glifo (halo de "negrito falso").
+- **Correção** (`UI/MainMenuScreen.cs`): `renderPostProcessing = false` e
+  `antialiasing = None` na câmera do menu; negrito por dilatação do SDF (`_FaceDilate` em
+  material compartilhado, sem duplicar glifo); textos secundários mais claros e painel mais
+  opaco para contraste. Nenhuma mudança de layout ou de paleta.
+- **Verificação**: `Teste Tela de Abertura` **PASS** (5/5, 0 erros) e comparação de capturas
+  em 1920×1080 antes/depois; regressão completa: ritmo 19 OK / 0 falhas, dificuldades 16 OK,
+  loja PASS, tiro PASS. `Verificar Dificuldades` agora encerra sozinho no modo batch.
+- **Publicado**: `https://github.com/brunomouramathias/arena-survivor-vr` (público) atualizado
+  com a tela nova, `docs/menu.md`, três imagens novas no README e os relatórios de teste.
+  A versão reduzida foi validada abrindo uma cópia limpa no Unity: 19 OK na verificação de
+  ritmo, tela de abertura PASS e loja PASS dentro do próprio repositório.
