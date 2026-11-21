@@ -1,0 +1,35 @@
+﻿=== TESTE DA TELA DE ABERTURA ===
+Data: 2026-11-21 11:24:04
+[1] canvas='UI_MainMenu' botões=8 textos=72 imagens=47
+     modo(fácil/médio/difícil)=True iniciar=True comoJogar=True sair=True arte=True => PASS
+       · FÁCIL
+       · MÉDIO
+       · DIFÍCIL
+       · INICIAR PARTIDA  »
+       · COMO JOGAR
+       · SAIR
+       · FECHAR  (ESC)
+       · ENTENDI
+     DIFÍCIL: 'Cada erro pesa' | ficha = ×1,30 | ×1,15 | ×1,20 | 0 | ×1,30 => PASS
+     FÁCIL: 'Aprenda o ritmo sem pressão' | ficha = ×0,80 | ×0,85 | ×0,85 | 150 | ×0,85 => PASS
+     MÉDIO: 'O balanceamento oficial' | ficha = padrão | padrão | padrão | 0 | padrão => PASS
+[2] troca de modo: fácil=True médio=True difícil=True
+     => PASS
+[3] COMO JOGAR: clique=True painelAberto=True teclas=7/7 dicas=6/6 => PASS
+[3b] fechar pelo botão: True => PASS
+[4] dificuldade selecionada = Hard (DIFÍCIL)
+    clique em INICIAR PARTIDA: True
+    troca de cena em 0,73s
+    pontos iniciais medidos=5 (esperado 0 no difícil)
+[4] Arena: estado=Playing modo=Hard
+    inimigo: vida=47 (esperado 47 = 36 × 1,30)
+    +100 pontos virou +130 pontuação (esperado 130)
+    => PASS
+    HUD: 'TEMPO 00:05    TORRES 4/4 (100%)    DIFÍCIL' => PASS
+[5] menu recarregado: tela=True modo atual=Hard pref=Hard
+    após escolher FÁCIL: modo=Easy pref=Easy
+    clique em INICIAR PARTIDA: True
+[5] FÁCIL: modo=Easy pontos iniciais=153 (esperado 150) vida=29 (esperado 29) => PASS
+
+Erros/exceções: 0
+RESULTADO: PASS

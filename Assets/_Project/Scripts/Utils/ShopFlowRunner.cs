@@ -39,6 +39,9 @@ namespace ArenaSurvivor.Utils
         {
             if (!AutoRun) { enabled = false; yield break; }
 
+            // medições sempre no balanceamento oficial (independe do modo salvo na tela de abertura)
+            ArenaSurvivor.Core.Difficulty.SelectForSession(ArenaSurvivor.Core.GameDifficulty.Medium);
+
             sb.AppendLine("=== TESTE: ícone de poder -> loja -> próxima onda ===");
             sb.AppendLine($"Data: {System.DateTime.Now:yyyy-MM-dd HH:mm:ss}");
 

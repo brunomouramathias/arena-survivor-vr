@@ -61,7 +61,7 @@ namespace ArenaSurvivor.UI
                 }
                 // media da vida das torres vivas (0-100%)
                 int pct = alive > 0 ? Mathf.RoundToInt(hp / alive * 100f) : 0;
-                hudInfoText.text = $"TEMPO {mins:00}:{rest:00}    TORRES {alive}/{total} ({pct}%)";
+                hudInfoText.text = $"TEMPO {mins:00}:{rest:00}    TORRES {alive}/{total} ({pct}%)    {Difficulty.Profile.Label}";
             }
 
             var gm = GameManager.Instance;

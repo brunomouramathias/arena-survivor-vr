@@ -1,4 +1,4 @@
-=== RITMO E PODERES (edit mode) 20/11 18:20 ===
+=== RITMO E PODERES (edit mode) 21/11 11:23 ===
 [TIROS] onda1:2 tiros (36HP), onda2:3 tiros (54HP), onda3:4 tiros (72HP), onda4:5 tiros (90HP), onda5:6 tiros (108HP), onda6:7 tiros (126HP), onda7:8 tiros (144HP), onda8:8 tiros (144HP)
 [OK]    Onda 1 = 2 tiros, onda 2 = 3 tiros, onda 3 = 4 tiros — o1=2 o2=3 o3=4
 [OK]    Ondas seguintes pedem mais tiros (teto 8) — o4=5 o7=8 o8=8

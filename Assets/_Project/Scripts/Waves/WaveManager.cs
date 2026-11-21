@@ -68,7 +68,9 @@ namespace ArenaSurvivor.Waves
 
                 // Spawn da onda
                 SetState(WaveState.Spawning);
-                int total = config.GetEnemyCount(currentWave);
+                // quantidade da onda ajustada pela dificuldade (mínimo 3 para a arena não ficar vazia)
+                float countMul = Difficulty.Profile.EnemyCount;
+                int total = Mathf.Max(3, Mathf.RoundToInt(config.GetEnemyCount(currentWave) * countMul));
                 aliveEnemies = 0;
 
                 yield return spawner.SpawnWave(currentWave, total, bossWave, OnEnemySpawned, OnEnemyDied);

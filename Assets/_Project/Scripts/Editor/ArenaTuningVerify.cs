@@ -38,6 +38,10 @@ namespace ArenaSurvivor.Editor
                               System.DateTime.Now.ToString("dd/MM HH:mm") + " ===\n");
             pass = fail = 0;
 
+            // a verificação mede o balanceamento oficial: força MÉDIO (×1,00)
+            // independente do modo que o jogador deixou salvo na tela de abertura
+            Core.Difficulty.SelectForSession(Core.GameDifficulty.Medium);
+
             try
             {
                 VerifyShots();

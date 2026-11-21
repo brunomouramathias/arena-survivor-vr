@@ -610,15 +610,19 @@ namespace ArenaSurvivor.Editor
             var gmGO = new GameObject("GameManager");
             gmGO.AddComponent<GameManager>();
 
-            var canvasGO = new GameObject("Canvas_MainMenu");
+            // tela de abertura procedural (arte + modos + como jogar)
+            var canvasGO = new GameObject("UI_MainMenu");
             var canvas   = canvasGO.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.renderMode    = RenderMode.ScreenSpaceCamera;
+            canvas.worldCamera   = cam;
+            canvas.planeDistance = 1f;
+            canvas.sortingOrder  = 100;
             var scaler = canvasGO.AddComponent<UnityEngine.UI.CanvasScaler>();
             scaler.uiScaleMode        = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.matchWidthOrHeight  = 0.5f;
             canvasGO.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-            canvasGO.AddComponent<MainMenuController>();
+            canvasGO.AddComponent<ArenaSurvivor.UI.MainMenuScreen>();
 
             var esGO = new GameObject("EventSystem");
             esGO.AddComponent<UnityEngine.EventSystems.EventSystem>();

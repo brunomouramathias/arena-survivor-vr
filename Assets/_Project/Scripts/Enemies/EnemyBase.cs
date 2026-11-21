@@ -68,7 +68,9 @@ namespace ArenaSurvivor.Enemies
         {
             if (data == null) return;
 
-            waveSpeedFactor = Waves.WaveTuning.SpeedFactor(waveNumber);
+            // Dificuldade escolhida na tela de abertura (MÉDIO = multiplicador 1)
+            var diff = Core.Difficulty.Profile;
+            waveSpeedFactor = Waves.WaveTuning.SpeedFactor(waveNumber) * diff.EnemySpeed;
 
             if (data.useWaveShotRule)
             {
@@ -82,6 +84,7 @@ namespace ArenaSurvivor.Enemies
                 maxHealth   = Mathf.RoundToInt(data.baseHealth * scale);
             }
 
+            maxHealth     = Mathf.Max(1, Mathf.RoundToInt(maxHealth * diff.EnemyHealth));
             currentHealth = maxHealth;
             isDead       = false;
             attackTimer  = 0f;

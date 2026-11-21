@@ -170,3 +170,30 @@ Prova: `docs/screens/armas/tiro_armas.txt` (play mode, 5/5 PASS).
 - **Verificação**: `Tools ▸ Arena ▸ Teste Tiro das Armas` → pistola, escopeta (caminho da
   loja) e arma de energia (caminho do poder) atiram; troca de volta para a pistola atira;
   escopeta seca volta para a pistola. **5/5 PASS, 0 erros**.
+
+## Tela de abertura: modos de jogo e "como jogar" (21/11 — parte 6)
+
+Prova: `docs/screens/menu/menu_probe.txt` (play mode, 5/5 PASS) + `01_menu.png` … `04_como_jogar.png`
+Documentação: `docs/menu.md`
+
+- **Antes**: a cena `MainMenu` tinha o script `MainMenuController`, mas o canvas `Canvas_MainMenu`
+  estava **sem filhos** — abrir o jogo dava uma tela praticamente vazia.
+- **Agora**: `UI/MainMenuScreen.cs` constrói a tela inteira por código sobre a arte do próprio
+  jogo (`Resources/Menu_Backdrop.png`, capturada da arena com a `Tools ▸ Arena ▸ Capturar Arte do Menu`):
+  topo com marca/instituição, herói com título e recorde pessoal, painel de modo de jogo,
+  rodapé com os controles e a janela **COMO JOGAR** (9 teclas + 6 dicas de estratégia + o ciclo
+  de uma onda). Paleta, contorno dourado e tipografia iguais às do HUD/loja.
+- **Modos** (`Core/Difficulty.cs`): FÁCIL (vida ×0,80, velocidade ×0,85, quantidade ×0,85,
+  150 pontos iniciais, pontuação ×0,85), MÉDIO (balanceamento oficial, tudo ×1) e DIFÍCIL
+  (×1,30 / ×1,15 / ×1,20, sem pontos iniciais, pontuação ×1,30). Aplicado em `EnemyBase`
+  (vida/velocidade), `WaveManager` (quantidade) e `ScoreService` (pontos iniciais e
+  multiplicador da pontuação). A escolha fica salva e aparece no HUD.
+- **Verificação**: `Tools ▸ Arena ▸ Teste Tela de Abertura` → estrutura (8 botões, os três modos,
+  INICIAR/COMO JOGAR/SAIR e a arte), troca de modo conferindo a ficha de cada perfil, "Como jogar"
+  abrindo e fechando por clique real (raycast), INICIAR na partida em DIFÍCIL (vida 47 = 36 × 1,30,
+  +100 pontos → +130, HUD "DIFÍCIL") e, recarregando o menu, FÁCIL com 150 pontos iniciais e
+  vida 29 (36 × 0,80). **PASS, 0 erros**.
+- **Efeito colateral tratado**: a preferência de dificuldade sobrevive entre execuções, então as
+  verificações de balanceamento (`ArenaTuningVerify`, `ShopFlowTest`, `WeaponShootTest`) agora
+  forçam **MÉDIO** no início — antes elas mediam o modo que tinha ficado salvo pelo jogador.
+  Regressão: 19 OK / 0 FALHAS, loja PASS, tiro PASS.

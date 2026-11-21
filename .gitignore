@@ -43,3 +43,6 @@ crash-*.json
 
 # Pasta de importação pendente (conteúdo bruto antes do processamento)
 Assets/_Project/ThirdParty/_INBOX/kenney_nature-kit/Preview*/
+
+# capturas geradas pelos testes (as imagens do README ficam em docs/images)
+docs/screens/menu/*.png

@@ -9,6 +9,15 @@ rápidas, os bruxos conjuram magias e, a cada onda limpa, nasce no chão um íco
 que evolui a arma. Entre uma onda e outra abre a loja, onde os pontos viram dano, cadência,
 vida e armas novas.
 
+![Tela de abertura](docs/images/menu.jpg)
+
+A tela de abertura traz a escolha do **modo de jogo** (Fácil, Médio ou Difícil), o recorde
+pessoal e o guia **Como jogar** com todos os controles e a estratégia de cada onda:
+
+| Modos de jogo | Como jogar |
+| --- | --- |
+| ![Modos](docs/images/modos.jpg) | ![Como jogar](docs/images/como_jogar.jpg) |
+
 ![Jogabilidade](docs/images/gameplay.jpg)
 
 | Loja entre ondas | Inimigos e torres |
@@ -21,6 +30,10 @@ vida e armas novas.
 
 ## Funcionalidades
 
+- **Tela de abertura** com três dificuldades, recorde pessoal, seletor de modo com a ficha
+  de cada um e o guia **Como jogar** (controles, estratégia e ciclo da onda).
+- **Três modos de jogo** que mudam o jogo de verdade: vida, velocidade e quantidade de
+  inimigos, pontos iniciais e multiplicador de pontuação.
 - **Ondas progressivas**: quantidade, vida e velocidade crescem por onda
   (vida calibrada em "2 tiros na onda 1, 3 na onda 2, …").
 - **Quatro inimigos** com NavMesh, animação e áudio 3D: bruto (perseguidor), cuspidor
@@ -46,6 +59,19 @@ vida e armas novas.
 - **Apresentação**: skins texturizadas pintadas por osso, barras de vida procedurais,
   arena de floresta com castelos, tochas e partículas.
 
+## Modos de jogo
+
+| | Fácil | Médio | Difícil |
+| --- | --- | --- | --- |
+| Vida dos inimigos | ×0,80 | padrão | ×1,30 |
+| Velocidade | ×0,85 | padrão | ×1,15 |
+| Inimigos por onda | ×0,85 | padrão | ×1,20 |
+| Pontos iniciais | 150 | 0 | 0 |
+| Pontuação | ×0,85 | padrão | ×1,30 |
+
+**Médio é o balanceamento oficial** (2 tiros por inimigo na primeira onda, até 8 nas
+últimas). A escolha fica salva entre as partidas e aparece no HUD de combate.
+
 ## Stack
 
 | Camada | Tecnologia |
@@ -63,6 +89,9 @@ vida e armas novas.
 
 | Ação | Tecla / mouse |
 | --- | --- |
+| Abrir o jogo | cena `MainMenu` → **INICIAR PARTIDA** |
+| Escolher o modo | clique, `←` `→`/`A` `D` ou `1` `2` `3` na tela inicial |
+| Como jogar | botão **COMO JOGAR** na tela inicial (`Esc` fecha) |
 | Mover | `W` `A` `S` `D` ou setas |
 | Mirar | mouse |
 | Atirar | botão esquerdo |
@@ -88,18 +117,19 @@ Passos:
    ```
 
 2. No Unity Hub, escolha **Add project from disk** e selecione a pasta do projeto.
-3. Abra a cena `Assets/_Project/Scenes/MainMenu.unity` (o botão **JOGAR** carrega a arena)
-   ou direto `Assets/_Project/Scenes/Arena.unity`.
+3. Abra a cena `Assets/_Project/Scenes/MainMenu.unity` — é a tela de abertura, e é a cena 0
+   do build. Pressione **Play** e clique em **INICIAR PARTIDA** (para ir direto ao combate,
+   abra `Assets/_Project/Scenes/Arena.unity`).
 4. Aperte **Play**.
 
 Na primeira abertura o Unity reimporta os assets e restaura os pacotes do registro
 (URP, TextMesh Pro, uGUI) — isso leva alguns minutos e só acontece uma vez.
 
-> **Versão reduzida.** Para o download ficar leve (~46 MB), este repositório traz o
+> **Versão reduzida.** Para o download ficar leve (~48 MB), este repositório traz o
 > projeto completo **sem** material de desenvolvimento: sem `Library/`, `Logs/`, builds nem
 > capturas de tela do processo, e com os packs brutos reduzidos ao que o jogo realmente usa
-> (`Assets/_Project/ThirdParty/_INBOX`: só os 10 arquivos referenciados). Nada do que o jogo
-> precisa foi removido — a integridade das referências foi verificada e os três conjuntos de
+> (`Assets/_Project/ThirdParty/_INBOX`: só os arquivos referenciados). Nada do que o jogo
+> precisa foi removido — a integridade das referências foi verificada e os conjuntos de
 > testes automatizados passam nesta versão.
 
 ## Estrutura do projeto
@@ -118,6 +148,7 @@ Assets/_Project/
     Editor/          # ferramentas e testes (menu Tools ▸ Arena)
   Scenes/            # MainMenu, Arena, Sandbox
   Prefabs/  ScriptableObjects/  Materials/  Textures/  Animations/  Audio/
+  Resources/         # arte da tela de abertura (fundo do menu)
   ThirdParty/        # packs externos usados pelo jogo (CC0 / CC-BY)
 docs/                # documentação técnica e relatórios de verificação
 ```
@@ -128,6 +159,8 @@ Os testes ficam em `Tools ▸ Arena` no menu do editor e gravam relatórios em `
 
 | Menu | O que verifica | Relatório |
 | --- | --- | --- |
+| **Teste Tela de Abertura** (play mode) | estrutura do menu, troca dos três modos com a ficha de cada um, "Como jogar" abrindo e fechando por clique real, INICIAR levando à arena com a dificuldade aplicada (vida, pontos e HUD) | [`docs/screens/menu/menu_probe.txt`](docs/screens/menu/menu_probe.txt) |
+| **Verificar Dificuldades** (edit mode) | 16 checagens nos prefabs reais: vida/velocidade/quantidade por modo, ordem dos modos e textos da ficha | [`docs/screens/menu/dificuldades.txt`](docs/screens/menu/dificuldades.txt) |
 | **Verificar Ritmo e Poderes** (edit mode) | 19 checagens: tiros para matar por onda, vida e velocidade dos inimigos, sequência dos poderes, tiro acertando o bruxo e mira assistida | [`docs/screens/poderes/verificacao.txt`](docs/screens/poderes/verificacao.txt) |
 | **Teste Loja** (play mode) | fim de onda → ícone de poder → loja com compra → próxima onda; e loja sem tela não travando o jogo | [`docs/screens/loja/fluxo.txt`](docs/screens/loja/fluxo.txt) |
 | **Teste Tiro das Armas** (play mode) | pistola, escopeta e arma de energia atirando depois de desbloqueadas (loja e poder) e troca automática com munição esgotada | [`docs/screens/armas/tiro_armas.txt`](docs/screens/armas/tiro_armas.txt) |
@@ -137,6 +170,7 @@ Os testes ficam em `Tools ▸ Arena` no menu do editor e gravam relatórios em `
 
 - [`docs/RELATORIO_TECNICO.md`](docs/RELATORIO_TECNICO.md) — arquitetura e decisões técnicas.
 - [`docs/PROGRESSO.md`](docs/PROGRESSO.md) — histórico de implementação e correções.
+- [`docs/menu.md`](docs/menu.md) — tela de abertura, modos de jogo e como testar.
 - [`docs/tiro.md`](docs/tiro.md) — sistema de tiro, colisão por varredura e mira assistida.
 - [`docs/loja.md`](docs/loja.md) — loja entre ondas e travas anti-travamento.
 - [`docs/poderes.md`](docs/poderes.md) — ritmo das ondas, poderes e nocaute.

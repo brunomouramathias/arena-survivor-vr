@@ -46,6 +46,14 @@ namespace ArenaSurvivor.Core
             if (Instance != null && Instance != this) { Destroy(gameObject); return; }
             Instance = this;
             highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+
+            // Dificuldade: pontos (e moeda de loja) iniciais do modo escolhido
+            int start = Difficulty.Profile.StartPoints;
+            if (start > 0)
+            {
+                currentScore += start;
+                currency     += start;
+            }
         }
 
         private void OnEnable()  { GameManager.OnGameStateChanged += HandleGameStateChanged; }
@@ -107,8 +115,14 @@ namespace ArenaSurvivor.Core
         // Adiciona pontos (também vira moeda da loja)
         public void AddScore(int amount)
         {
-            currentScore = Mathf.Max(0, currentScore + amount);
-            currency = Mathf.Max(0, currency + amount);
+            // O multiplicador do modo vale só para a pontuação (a moeda da loja segue 1:1,
+            // senão o modo difícil ficaria mais rico que o fácil).
+            int scoreGain = amount > 0
+                ? Mathf.RoundToInt(amount * Difficulty.Profile.ScoreMultiplier)
+                : amount;
+
+            currentScore = Mathf.Max(0, currentScore + scoreGain);
+            currency     = Mathf.Max(0, currency + amount);
             OnScoreChanged?.Invoke(currentScore);
             OnCurrencyChanged?.Invoke(currency);
         }
