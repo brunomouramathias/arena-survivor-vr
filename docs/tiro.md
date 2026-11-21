@@ -40,9 +40,25 @@ Physics.OverlapCapsuleNonAlloc(from, to, hitRadius, ...)   // raio 0,28 m
 
 ### 3. Tiro reto (sem mira assistida)
 
-**A bala vai reta: não curva e não é desviada.** A mira assistida antiga (que puxava o tiro
-para o inimigo mais próximo, até 14°) ficou **desligada** — ela fazia o disparo sair numa
-direção diferente da mira, o que atrapalhava na hora de acertar de longe.
+**A bala vai reta: não curva e não é desviada.** Três causas foram encontradas e corrigidas:
+
+1. **A bala era filha do jogador.** O pool era criado com `transform.root` (o corpo do
+   jogador), então a bala herdava a rotação do personagem — que gira para a mira a cada
+   frame. Resultado: a trajetória saía em arco, e só aparecia "às vezes" porque dependia de
+   o jogador estar girando enquanto a bala voava. Agora o pool vive em
+   `Projectiles_Pool` (objeto fixo na origem) e o `Projectile` **se solta de qualquer pai**
+   no disparo (`SetParent(null)`), voando no espaço do mundo.
+2. **A direção ficava no `transform.forward`.** Qualquer rotação herdada mudava o rumo no
+   meio do voo. Agora `Initialize` **congela a direção** (`flyingDirection`) e `Advance`
+   anda sempre nela — o `transform.rotation` é apenas reaplicado para o modelo apontar certo.
+3. **O tremor da câmera mexia na mira.** O tiro chama `CameraController.Shake()`, e a mira
+   vinha de `Camera.ScreenPointToRay` — com a câmera tremida, o ponto de mira no chão andava
+   metros a cada disparo. Agora o `CameraController` mantém a pose **sem tremor**
+   (`StablePosition`/`StableRotation`) e `ScreenRay()` calcula o raio por ela: a câmera
+   treme, a mira não (medido: tremor de 0,88 m, mira desviando 0,000 m).
+
+Além disso o rastro (`TrailRenderer`) é limpo a cada reuso do pool, para não aparecer um
+segmento ligando a posição da bala anterior.
 
 O que existe hoje:
 
@@ -51,7 +67,7 @@ O que existe hoje:
 - `Weapon.DirectionForPellet(i, baseDir)` — dispersão **simétrica**: os bagos da escopeta se
   abrem igualmente para os dois lados (12°), então o centro do tiro continua exatamente onde
   o jogador apontou. Pistola e arma de energia têm `spread = 0` (tiro 100% reto);
-- `Projectile` só anda no próprio `forward` (sem gravidade, sem perseguição).
+- `Projectile.Advance` só anda na direção congelada — sem gravidade, sem perseguição, sem pai.
 
 `AimAssist` sobrou apenas como `ChestPoint` (ponto de mira no peito do inimigo, usado nos
 testes), sem alterar nenhuma direção de tiro.
@@ -67,7 +83,12 @@ testes), sem alterar nenhuma direção de tiro.
 [OK]   Tiro vai reto: a bala não desvia nem curva depois de sair — pior desvio = 0,03°
 [TIRO] escopeta: centro da dispersão=0,00° maior desvio=12,0°
 [OK]   Escopeta espalha os bagos em torno da mira (centro continua no alvo)
-=== RESULTADO: 19 OK / 0 FALHAS ===
+[TIRO] pai girando 9°/frame: pior desvio por passo = 0,00°
+[OK]   Tiro continua reto mesmo com o pai da bala girando
+=== RESULTADO: 21 OK / 0 FALHAS ===
+
+[6] balas no container próprio=True direção antes/depois de girar o jogador: desvio=0,00° => PASS
+[7] tremor aplicado=0,88 m | mira desviou=0,000 m => PASS
 ```
 
 O teste usa os prefabs reais (`Projectile_Player` + `Enemy_Sorcerer`) e a arma real

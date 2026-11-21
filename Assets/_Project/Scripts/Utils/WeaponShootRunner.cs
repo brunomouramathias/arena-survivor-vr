@@ -94,10 +94,86 @@ namespace ArenaSurvivor.Utils
                 if (!(dry && recovered)) p4 = false;
             }
 
-            bool ok = p1 && p2 && p3 && p4 && errors == 0;
+            // ── 6) girar o jogador enquanto a bala voa: o tiro continua reto ──
+            bool p6 = false;
+            yield return StraightWhileTurning(shooter, r => p6 = r);
+
+            // ── 7) tremor de câmera não pode mover a mira ────────────────────
+            bool p7 = false;
+            yield return SteadyAimWhileShaking(shooter, r => p7 = r);
+
+            bool ok = p1 && p2 && p3 && p4 && p6 && p7 && errors == 0;
             sb.AppendLine($"\nErros/exceções: {errors}");
             sb.AppendLine($"RESULTADO: {(ok ? "PASS" : "FAIL")}");
             Finish();
+        }
+
+        // O tremor (shake) do disparo não pode mexer no ponto de mira
+        private IEnumerator SteadyAimWhileShaking(PlayerShooter shooter, System.Action<bool> result)
+        {
+            var cam = Camera.main;
+            var cc  = cam != null ? cam.GetComponent<CameraController>() : null;
+            if (cam == null || cc == null) { sb.AppendLine("[7] CameraController ausente => FAIL"); result(false); yield break; }
+
+            var planoJogador = shooter.transform.position;
+            Vector2 meio = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+
+            Vector3 Mira(Ray r)
+            {
+                var pl = new Plane(Vector3.up, planoJogador);
+                return pl.Raycast(r, out float d) ? r.GetPoint(d) : r.origin;
+            }
+
+            yield return null;
+            Vector3 antes = Mira(cc.ScreenRay(meio, cam));
+
+            cc.Shake(2.0f);                 // tremor forte, como um disparo
+            yield return null;
+            yield return null;
+
+            Vector3 depois    = Mira(cc.ScreenRay(meio, cam));
+            Vector3 tremida   = Mira(cam.ScreenPointToRay(meio));   // raio da câmera de verdade
+            float   desvioMira = Vector3.Distance(antes, depois);
+            float   tremorReal = Vector3.Distance(depois, tremida);
+
+            sb.AppendLine($"[7] tremor aplicado={tremorReal:F2} m | mira desviou={desvioMira:F3} m " +
+                          $"=> {(desvioMira < 0.05f ? "PASS" : "FAIL")}");
+
+            result(desvioMira < 0.05f);
+        }
+
+        // Dispara e GIRA o jogador em seguida: a bala não pode herdar a rotação do corpo.
+        private IEnumerator StraightWhileTurning(PlayerShooter shooter, System.Action<bool> result)
+        {
+            var weapon = shooter.GetWeaponInSlot(0);
+            if (weapon == null || !shooter.EquipSlot(0)) { sb.AppendLine("[6] pistola indisponível => FAIL"); result(false); yield break; }
+
+            yield return null;
+            yield return null;
+
+            Vector3 aim = shooter.transform.position + shooter.transform.forward * 15f + Vector3.up * 1.2f;
+            weapon.TryFire(aim);
+            yield return null;
+
+            var pool = GameObject.Find("Projectiles_Pool");
+
+            // balas em voo ficam soltas no mundo (fora de qualquer pai)
+            var ativos = FindObjectsByType<ArenaSurvivor.Weapons.Projectile>(FindObjectsInactive.Exclude);
+
+            Vector3 antes = ativos.Length > 0 ? ativos[0].Direction : Vector3.zero;
+
+            // gira o corpo 90° (é o que acontece ao mirar em outra direção)
+            shooter.transform.rotation = shooter.transform.rotation * Quaternion.Euler(0f, 90f, 0f);
+            yield return null;
+            yield return null;
+
+            float desvio = ativos.Length > 0 ? Vector3.Angle(antes, ativos[0].Direction) : -1f;
+            bool dentroDoPool = pool != null && pool.transform.parent == null;
+
+            sb.AppendLine($"[6] balas no container próprio={dentroDoPool} direção antes/depois de girar o jogador: desvio={desvio:F2}° " +
+                          $"=> {((dentroDoPool && ativos.Length > 0 && desvio < 1f) ? "PASS" : "FAIL")}");
+
+            result(dentroDoPool && ativos.Length > 0 && desvio < 1f);
         }
 
         // Dispara e confere que o pente diminuiu (ou seja: Fire() rodou)

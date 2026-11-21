@@ -25,6 +25,7 @@ namespace ArenaSurvivor.Player
         private Animator animator;
         private PlayerHealth health;
         private Camera mainCamera;
+        private CameraController cameraController;
         private InputService inputService;
         private WaypointManager waypointManager;
 
@@ -214,7 +215,12 @@ namespace ArenaSurvivor.Player
 
             Vector2 mousePos = inputService != null ? inputService.MouseScreenPosition : (Vector2)Input.mousePosition;
             var plane = new Plane(Vector3.up, transform.position);
-            var ray   = mainCamera.ScreenPointToRay(mousePos);
+
+            // O raio vem da câmera SEM tremor: o recuo/tremor do tiro não pode mudar a mira
+            if (cameraController == null) cameraController = mainCamera.GetComponent<CameraController>();
+            Ray ray = cameraController != null
+                ? cameraController.ScreenRay(mousePos, mainCamera)
+                : mainCamera.ScreenPointToRay(mousePos);
 
             if (plane.Raycast(ray, out float enter))
             {

@@ -49,6 +49,7 @@ namespace ArenaSurvivor.Editor
                 VerifyPowerUps();
                 VerifyReviveWiring();
                 VerifyShooting();
+                VerifyStraightShotUnderRotatingParent();
                 VerifySurvivalTimeFormat();
                 CapturePowerUpIcon();
             }
@@ -287,6 +288,48 @@ namespace ArenaSurvivor.Editor
 
             Object.DestroyImmediate(e2);
             Object.DestroyImmediate(enemy);
+        }
+
+        // 3a) tiro reto mesmo quando o "pai" da bala gira (bug do pool no jogador) ----
+        static void VerifyStraightShotUnderRotatingParent()
+        {
+            var projPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Projectile_Player.prefab");
+            if (projPrefab == null) { Check("Tiro reto com o pai girando", false, "prefab do projétil não encontrado"); return; }
+
+            var pai  = new GameObject("PaiQueGira");            // simula o jogador girando
+            var bala = Object.Instantiate(projPrefab, pai.transform, false);
+
+            Vector3 origem = new Vector3(0f, 40f, 0f);
+            Vector3 dir    = new Vector3(0.3f, 0f, 1f).normalized;
+
+            bala.transform.position = origem;
+            bala.transform.rotation = Quaternion.LookRotation(dir);
+
+            var proj = bala.GetComponent<Projectile>();
+            var col  = bala.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+            proj.Initialize(20f, 10f, 400f, false);
+
+            float pior = 0f;
+            Vector3 ultimo = origem;
+            for (int i = 0; i < 90; i++)
+            {
+                pai.transform.Rotate(0f, 9f, 0f);               // 9° por frame (gira rápido)
+                proj.Advance(1f / 60f);
+
+                Vector3 pos = bala.transform.position;
+                float passo = Vector3.Distance(ultimo, pos);
+                if (passo > 0.0001f)
+                    pior = Mathf.Max(pior, Vector3.Angle(pos - ultimo, dir));   // cada passo deve seguir a mira
+                ultimo = pos;
+            }
+
+            Log($"[TIRO] pai girando 9°/frame: pior desvio por passo = {pior:0.00}°");
+            Check("Tiro continua reto mesmo com o pai da bala girando",
+                  pior < 0.5f,
+                  $"pior desvio em 90 passos = {pior:0.00}°");
+
+            Object.DestroyImmediate(pai);
         }
 
         // 3b) tempo de sobrevivência no fim de jogo --------------------------

@@ -66,8 +66,26 @@ namespace ArenaSurvivor.Weapons
             {
                 var prefabProjectile = data.projectilePrefab.GetComponent<Projectile>();
                 if (prefabProjectile != null)
-                    projectilePool = new ObjectPool<Projectile>(prefabProjectile, 30, transform.root);
+                    projectilePool = new ObjectPool<Projectile>(prefabProjectile, 30, ProjectilePoolRoot());
             }
+        }
+
+        // As balas ficam num objeto fixo na origem do mundo — NUNCA embaixo do jogador:
+        // dentro do jogador elas herdavam a rotação do corpo (que gira para a mira) e o tiro
+        // saía curvando conforme o personagem virava.
+        private static Transform sharedPoolRoot;
+
+        private static Transform ProjectilePoolRoot()
+        {
+            if (sharedPoolRoot != null) return sharedPoolRoot;
+
+            var go = GameObject.Find("Projectiles_Pool");
+            if (go == null) go = new GameObject("Projectiles_Pool");
+
+            sharedPoolRoot = go.transform;
+            sharedPoolRoot.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            sharedPoolRoot.localScale = Vector3.one;
+            return sharedPoolRoot;
         }
 
         public void Unlock()
@@ -157,6 +175,7 @@ namespace ArenaSurvivor.Weapons
             if (projectilePool == null) return;
 
             var proj = projectilePool.Get(origin, Quaternion.LookRotation(dir));
+            proj.IsPooled = true;
             float dmg = data.damage;
 
             // Aplica multiplicador de dano

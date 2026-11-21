@@ -265,3 +265,26 @@ Prova: `docs/screens/audio/sons.txt` (play mode, 5/5 PASS). Documentação: `doc
 - **Verificação**: `Verificar Ritmo e Poderes` ganhou a checagem de formato (0 s / 48 s / 59 s /
   1 min / 3 min 47 s / 10 min 05 s) → **20 OK / 0 falhas**. Captura real do fim de jogo em
   `docs/screens/hud/gameover_tempo.png` (`Tools ▸ Arena ▸ Capturar Tela de Fim de Jogo`).
+
+## Tiro curvando: a causa era o pool dentro do jogador (21/11 — parte 11)
+
+- **Sintoma**: mesmo sem mira assistida, o tiro "às vezes" saía curvado.
+- **Causa 1 (a principal)**: `ObjectPool<Projectile>(prefab, 30, transform.root)` — as balas
+  nasciam como **filhas do jogador**, e o `PlayerController` gira o corpo para encarar a mira
+  a cada frame. A bala herdava essa rotação e o voo virava arco; como o desvio depende de o
+  jogador estar girando naquele instante, parecia intermitente.
+- **Causa 2**: `Advance` usava `transform.forward` (que muda com o pai) em vez de uma direção
+  congelada no disparo.
+- **Causa 3**: o tremor de câmera (chamado a cada disparo) deslocava a câmera usada por
+  `Camera.ScreenPointToRay`, então o **ponto de mira no chão andava metros** entre um tiro e
+  outro — mesmo com a bala reta, ela ia para outro lugar.
+- **Correções**: pool em `Projectiles_Pool` (fixo na origem); `Projectile` se solta de
+  qualquer pai no `Initialize` e passa a andar em `flyingDirection` congelada; rastro limpo a
+  cada reuso; `CameraController` separa pose limpa (`StablePosition`/`StableRotation`) e
+  `ScreenRay()` dá o raio da mira sem tremor (shake de 0,88 m → mira desviando 0,000 m).
+  Balas de inimigo (instanciadas) agora são destruídas ao fim do voo em vez de ficar
+  inativas na cena.
+- **Verificação**: `Tiro continua reto mesmo com o pai da bala girando` (pai girando 9°/frame
+  por 90 passos → desvio 0,00°), `[6]` no teste de armas (girar o jogador 90° depois do
+  disparo → desvio 0,00°) e `[7]` (tremor não move a mira). Ritmo **21 OK / 0 falhas**;
+  armas PASS (7/7); loja PASS.

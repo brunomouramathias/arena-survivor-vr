@@ -1,5 +1,5 @@
 ﻿=== TESTE: atirar com todas as armas (pistola / escopeta / energia) ===
-Data: 2026-11-20 18:23:34
+Data: 2026-11-21 19:05:31
 [PISTOLA] 'Weapon_Pistol' desbloqueada=True pente 12->11 atirou=True => PASS
 [2] antes: escopeta 'Weapon_Shotgun' desbloqueada=False clip=0
 [2] equipou=True arma atual='Weapon_Shotgun' desbloqueada=True clip=6 reserva=36
@@ -8,6 +8,8 @@ Data: 2026-11-20 18:23:34
 [ENERGIA] 'Weapon_Energy' desbloqueada=True pente 30->29 atirou=True => PASS
 [PISTOLA (de volta)] 'Weapon_Pistol' desbloqueada=True pente 11->10 atirou=True => PASS
 [5] escopeta seca=True -> arma atual='Weapon_Pistol' recuperou=True => PASS
+[6] balas no container próprio=True direção antes/depois de girar o jogador: desvio=0,00° => PASS
+[7] tremor aplicado=0,68 m | mira desviou=0,000 m => PASS
 
 Erros/exceções: 0
 RESULTADO: PASS
